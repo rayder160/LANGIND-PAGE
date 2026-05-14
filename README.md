@@ -1,2 +1,0 @@
-# LANGIND-PAGE
-Trabajo
