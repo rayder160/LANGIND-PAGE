@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProxDeep · IA Organizacional</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-wrapper">
+
+    <!-- Partículas de fondo -->
+    <canvas id="particles-canvas"></canvas>
+
+    <header class="hero" id="top">
+      <nav class="nav">
+        <div class="logo">
+          <svg class="logo-img" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="hexGrad" cx="50%" cy="40%" r="60%">
+                <stop offset="0%" stop-color="#1a6fd4"/>
+                <stop offset="100%" stop-color="#0a1e5e"/>
+              </radialGradient>
+              <filter id="glow">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <!-- Hexágono exterior -->
+            <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGrad)" stroke="#1e4fa0" stroke-width="2"/>
+            <!-- Nodos en vértices -->
+            <circle cx="50" cy="4"  r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <circle cx="92" cy="27" r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <circle cx="92" cy="73" r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <circle cx="50" cy="96" r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <circle cx="8"  cy="73" r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <circle cx="8"  cy="27" r="4" fill="#1a6fd4" stroke="#00cfff" stroke-width="1.5"/>
+            <!-- Nodos intermedios -->
+            <circle cx="50" cy="22" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <circle cx="71" cy="33" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <circle cx="71" cy="67" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <circle cx="50" cy="78" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <circle cx="29" cy="67" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <circle cx="29" cy="33" r="3" fill="#00cfff" filter="url(#glow)"/>
+            <!-- Líneas de red -->
+            <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+              <line x1="50" y1="4"  x2="50" y2="22"/>
+              <line x1="92" y1="27" x2="71" y2="33"/>
+              <line x1="92" y1="73" x2="71" y2="67"/>
+              <line x1="50" y1="96" x2="50" y2="78"/>
+              <line x1="8"  y1="73" x2="29" y2="67"/>
+              <line x1="8"  y1="27" x2="29" y2="33"/>
+              <line x1="50" y1="22" x2="71" y2="33"/>
+              <line x1="71" y1="33" x2="71" y2="67"/>
+              <line x1="71" y1="67" x2="50" y2="78"/>
+              <line x1="50" y1="78" x2="29" y2="67"/>
+              <line x1="29" y1="67" x2="29" y2="33"/>
+              <line x1="29" y1="33" x2="50" y2="22"/>
+              <line x1="50" y1="22" x2="29" y2="67"/>
+              <line x1="71" y1="33" x2="29" y2="67"/>
+            </g>
+            <!-- Nodo central brillante -->
+            <circle cx="50" cy="50" r="7" fill="#00cfff" filter="url(#glow)" opacity="0.9"/>
+            <circle cx="50" cy="50" r="4" fill="#ffffff" opacity="0.8"/>
+            <!-- Letra S -->
+            <text x="50" y="56" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="white" opacity="0.85">S</text>
+          </svg>
+          <div>
+            <span class="logo-text">PROX<span>DEEP</span></span>
+            <span class="logo-sub">IA Infraestructura Empresarial Dedicada</span>
+          </div>
+        </div>
+        <div class="nav-links">
+          <a href="#producto">Producto</a>
+          <a href="#servicios">Servicios</a>
+          <a href="#casos">Casos de uso</a>
+          <a href="#planes">Planes</a>
+        </div>
+        <div class="nav-cta">
+          <a href="#contacto" class="btn btn-outline">Iniciar sesión</a>
+          <a href="#contacto" class="btn btn-primary">Agendar demo</a>
+        </div>
+        <button class="nav-toggle" aria-label="Abrir menú">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+
+      <div class="hero-content">
+        <div class="hero-text" data-animate="fade-up">
+          <p class="badge">IA para empresas · Pymes · Equipos de desarrollo</p>
+          <h1>La IA que aprende de tu empresa y trabaja con tu equipo 24/7.</h1>
+          <p class="hero-subtitle">
+            Un asistente organizacional que entiende tus procesos, vive en servidores dedicados o compartidos
+            y se integra en Visual Studio Code para programar contigo.
+          </p>
+          <div class="hero-actions">
+            <a href="#contacto" class="btn btn-primary btn-lg">Agendar demo</a>
+            <a href="#producto" class="btn btn-ghost btn-lg">Ver cómo funciona</a>
+          </div>
+          <div class="hero-trust">
+            <span class="dot"></span>
+            Datos cifrados, sin usar tu información para entrenar modelos públicos.
+          </div>
+        </div>
+
+        <div class="hero-visual" data-animate="fade-left">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <span class="status-pill">Online</span>
+              <span class="status-dot"></span>
+            </div>
+            <div class="chat-window" id="hero-chat">
+              <!-- Los mensajes se inyectan por JS -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-gradient"></div>
+    </header>
+
+    <main>
+      <section class="section" id="producto">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Una sola IA para toda tu organización</h2>
+          <p>
+            ProxDeep es una inteligencia artificial organizacional diseñada para empresas. Aprende de tus documentos,
+            procesos y herramientas internas para responder dudas, proponer mejoras y ejecutar tareas simples como si
+            fuera un miembro más del equipo, pero disponible 24/7.
+          </p>
+        </div>
+
+        <div class="grid grid-3" data-animate="fade-up">
+          <div class="card feature">
+            <div class="feature-icon">🧠</div>
+            <h3>Aprende de tu empresa</h3>
+            <p>
+              Conecta manuales, wikis, correos clave y bases de conocimiento internas para que la IA responda
+              exactamente como tu organización lo haría.
+            </p>
+          </div>
+          <div class="card feature">
+            <div class="feature-icon">💬</div>
+            <h3>Habla con todos tus equipos</h3>
+            <p>
+              Soporta múltiples áreas y roles, con acceso controlado para que cada persona vea solo la información
+              que le corresponde.
+            </p>
+          </div>
+          <div class="card feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Se adapta a tu stack</h3>
+            <p>
+              Integra tu IA con las herramientas que ya usas en la empresa, sin obligarte a migrar todo a un
+              ecosistema cerrado.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Métricas animadas -->
+      <section class="metrics-section" data-animate="fade-up">
+        <div class="metric">
+          <span class="metric-number" data-target="98">0</span><span class="metric-unit">%</span>
+          <p>Precisión en respuestas</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="24">0</span><span class="metric-unit">/7</span>
+          <p>Disponibilidad garantizada</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="3">0</span><span class="metric-unit">x</span>
+          <p>Más rápido que soporte humano</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="60">0</span><span class="metric-unit">%</span>
+          <p>Reducción de tickets internos</p>
+        </div>
+      </section>
+
+      <section class="section alt" id="servicios">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Tres formas de usarla, una sola IA detrás</h2>
+          <p>
+            La misma IA potencia un chat organizacional para toda la empresa, vive en servidores seguros y se transforma
+            en copiloto dentro de Visual Studio Code.
+          </p>
+        </div>
+
+        <div class="services-layout">
+          <article class="card service" data-animate="fade-right">
+            <div class="service-icon">🏢</div>
+            <h3>IA organizacional · Chat empresarial privado</h3>
+            <p>
+              Un asistente tipo chat entrenado con la información de tu empresa. Tus equipos pueden preguntarle desde
+              "¿cómo es la política de vacaciones?" hasta "¿qué debo responder a este cliente?".
+            </p>
+            <ul>
+              <li>Chat privado vía web o intranet, solo para tu organización.</li>
+              <li>Entrenado con documentos, wikis, correos y bases internas.</li>
+              <li>Controles de acceso y registro de actividad para compliance.</li>
+            </ul>
+          </article>
+
+          <article class="card service" data-animate="fade-up">
+            <div class="service-icon">🖥️</div>
+            <h3>Servidores dedicados o compartidos</h3>
+            <p>
+              Desplegamos tu IA en servidores compartidos de alto rendimiento o en servidores dedicados solo para tu
+              empresa, según el nivel de privacidad y rendimiento que necesites.
+            </p>
+            <ul>
+              <li>Servidor compartido para pymes con costo optimizado.</li>
+              <li>Servidor dedicado con aislamiento total y recursos exclusivos.</li>
+              <li>Políticas claras: tus datos no entrenan modelos públicos.</li>
+            </ul>
+          </article>
+
+          <article class="card service" data-animate="fade-left">
+            <div class="service-icon">💻</div>
+            <h3>Extensión para Visual Studio Code</h3>
+            <p>
+              La misma IA vive dentro de VS Code como extensión para programar. Entiende tu código, tu arquitectura y
+              tus reglas de negocio.
+            </p>
+            <ul>
+              <li>Sugerencias de código y refactors adaptados a tus estándares.</li>
+              <li>Contexto de repositorios internos y documentación de producto.</li>
+              <li>Perfecta para equipos que quieren algo más que un Copilot genérico.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section" id="casos">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Lo que tu equipo puede hacer desde el primer mes</h2>
+          <p>Casos de uso reales por área para sacarle valor a tu IA organizacional desde el día uno.</p>
+        </div>
+        <div class="grid grid-4" data-animate="fade-up">
+          <div class="card usecase">
+            <div class="usecase-icon">🎧</div>
+            <h3>Soporte interno</h3>
+            <p>Resuelve dudas repetitivas sobre procesos, vacaciones, gastos, on‑boarding y herramientas internas.</p>
+          </div>
+          <div class="card usecase">
+            <div class="usecase-icon">⚙️</div>
+            <h3>Operaciones</h3>
+            <p>Documenta y optimiza procesos, genera checklists y detecta cuellos de botella a partir de conversaciones.</p>
+          </div>
+          <div class="card usecase">
+            <div class="usecase-icon">📈</div>
+            <h3>Ventas y clientes</h3>
+            <p>Sugiere respuestas coherentes con tu tono de marca y tus políticas, basadas en casos anteriores.</p>
+          </div>
+          <div class="card usecase">
+            <div class="usecase-icon">🔧</div>
+            <h3>Producto y tecnología</h3>
+            <p>Ayuda a entender código heredado, escribir nuevas funciones y documentar APIs desde VS Code.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="implementacion">
+        <div class="section-header" data-animate="fade-up">
+          <h2>De cero a IA funcionando en semanas, no meses</h2>
+          <p>Te acompañamos en cada paso, desde el diagnóstico hasta la activación del copiloto en tu editor.</p>
+        </div>
+        <div class="steps" data-animate="fade-up">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3>Diagnóstico rápido</h3>
+            <p>Entendemos tus sistemas, fuentes de información y casos de uso prioritarios en una sesión de 30–60 minutos.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3>Conexión y despliegue</h3>
+            <p>Conectamos la IA a tus documentos y herramientas, y configuramos tu servidor compartido o dedicado.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3>Entrenamiento y ajustes</h3>
+            <p>Ajustamos respuestas, permisos y flujos según el feedback real de tus equipos.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">4</span>
+            <h3>Copiloto en VS Code</h3>
+            <p>Activamos la extensión y la integramos en el flujo de trabajo de tu equipo de desarrollo.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="planes">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Planes pensados para crecer con tu empresa</h2>
+          <p>Ajusta precios y límites según el tamaño de tus equipos y el uso esperado.</p>
+        </div>
+        <div class="pricing" data-animate="fade-up">
+          <div class="card pricing-card">
+            <h3>Starter</h3>
+            <p class="price">Para equipos pequeños</p>
+            <ul>
+              <li>IA organizacional para un área o equipo.</li>
+              <li>Servidor compartido.</li>
+              <li>Hasta X usuarios internos.</li>
+              <li>Soporte por email.</li>
+            </ul>
+            <a href="#contacto" class="btn btn-outline full">Hablar con ventas</a>
+          </div>
+          <div class="card pricing-card featured">
+            <div class="tag">Recomendado</div>
+            <h3>Business</h3>
+            <p class="price">Para toda la empresa</p>
+            <ul>
+              <li>IA organizacional para múltiples áreas.</li>
+              <li>Servidor compartido o dedicado (a elegir).</li>
+              <li>Extensión VS Code incluida.</li>
+              <li>Soporte prioritario.</li>
+            </ul>
+            <a href="#contacto" class="btn btn-primary full">Agendar demo</a>
+          </div>
+          <div class="card pricing-card">
+            <h3>Enterprise</h3>
+            <p class="price">A medida</p>
+            <ul>
+              <li>Servidor dedicado y configuración avanzada.</li>
+              <li>Integraciones personalizadas.</li>
+              <li>SLA y soporte 24/7.</li>
+              <li>Acompañamiento en procesos y gobierno de datos.</li>
+            </ul>
+            <a href="#contacto" class="btn btn-outline full">Solicitar propuesta</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section alt" id="contacto">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Hablemos de tu IA organizacional</h2>
+          <p>Cuéntanos cómo trabaja hoy tu empresa y te mostraremos, con tus propios datos, el impacto de ProxDeep.</p>
+        </div>
+        <div class="contact-layout" data-animate="fade-up">
+          <form class="card contact-form">
+            <div class="field">
+              <label>Nombre</label>
+              <input type="text" placeholder="Tu nombre" />
+            </div>
+            <div class="field">
+              <label>Correo corporativo</label>
+              <input type="email" placeholder="nombre@empresa.com" />
+            </div>
+            <div class="field">
+              <label>Tamaño de la empresa</label>
+              <select>
+                <option>1–10 personas</option>
+                <option>11–50 personas</option>
+                <option>51–200 personas</option>
+                <option>200+ personas</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>¿Qué quieres lograr con la IA?</label>
+              <textarea rows="4" placeholder="Cuéntanos brevemente tus retos"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary full">Agendar demo</button>
+          </form>
+          <div class="contact-side">
+            <div class="card contact-info">
+              <h3>¿Listo para ver la IA trabajando con tus datos?</h3>
+              <p>
+                Te mostramos un caso práctico usando información real de tu empresa, sin compromiso. Ideal para founders,
+                líderes de operaciones y CTOs.
+              </p>
+              <ul>
+                <li>Demo en vivo de 30–45 minutos.</li>
+                <li>Revisión de casos de uso prioritarios.</li>
+                <li>Estimación de impacto y siguientes pasos.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="logo">
+            <svg class="logo-img" style="width:28px;height:28px;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="hexGrad2" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#1a6fd4"/>
+                  <stop offset="100%" stop-color="#0a1e5e"/>
+                </radialGradient>
+              </defs>
+              <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGrad2)" stroke="#1e4fa0" stroke-width="2"/>
+              <circle cx="50" cy="22" r="3" fill="#00cfff"/><circle cx="71" cy="33" r="3" fill="#00cfff"/>
+              <circle cx="71" cy="67" r="3" fill="#00cfff"/><circle cx="50" cy="78" r="3" fill="#00cfff"/>
+              <circle cx="29" cy="67" r="3" fill="#00cfff"/><circle cx="29" cy="33" r="3" fill="#00cfff"/>
+              <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+                <line x1="50" y1="22" x2="71" y2="33"/><line x1="71" y1="33" x2="71" y2="67"/>
+                <line x1="71" y1="67" x2="50" y2="78"/><line x1="50" y1="78" x2="29" y2="67"/>
+                <line x1="29" y1="67" x2="29" y2="33"/><line x1="29" y1="33" x2="50" y2="22"/>
+              </g>
+              <circle cx="50" cy="50" r="6" fill="#00cfff" opacity="0.9"/>
+              <circle cx="50" cy="50" r="3" fill="#ffffff" opacity="0.8"/>
+            </svg>
+            <span class="logo-text">PROX<span>DEEP</span></span>
+          </div>
+          <p>IA organizacional, servidores seguros y copiloto para código en una sola plataforma.</p>
+        </div>
+        <div class="footer-right">
+          <a href="#top">Volver arriba</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ProxDeep. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ===== ROBOT ASISTENTE ===== -->
+  <div class="bot-wrapper" id="bot-wrapper">
+    <!-- Burbujas de características -->
+    <div class="bot-bubbles" id="bot-bubbles">
+      <span class="bot-bubble" id="bot-bubble-text">IA disponible 24/7</span>
+    </div>
+
+    <!-- Botón robot -->
+    <button class="bot-btn" id="bot-btn" aria-label="Abrir asistente ProxDeep">
+      <div class="bot-face">
+        <div class="bot-eyes">
+          <span class="bot-eye"></span>
+          <span class="bot-eye"></span>
+        </div>
+        <div class="bot-mouth"></div>
+      </div>
+      <div class="bot-pulse"></div>
+    </button>
+
+    <!-- Panel de chat -->
+    <div class="bot-chat" id="bot-chat">
+      <div class="bot-chat-header">
+        <div class="bot-chat-avatar">🤖</div>
+        <div>
+          <strong>ProxDeep AI</strong>
+          <span class="bot-online">● En línea</span>
+        </div>
+        <button class="bot-close" id="bot-close" aria-label="Cerrar chat">✕</button>
+      </div>
+      <div class="bot-chat-messages" id="bot-chat-messages">
+        <div class="bot-msg bot-msg-ai">
+          <p>¡Hola! Soy el asistente de ProxDeep 👋 ¿En qué puedo ayudarte hoy?</p>
+        </div>
+      </div>
+      <div class="bot-chat-input">
+        <input type="text" id="bot-input" placeholder="Escribe tu pregunta..." />
+        <button id="bot-send" aria-label="Enviar">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
