@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProxDeep - Enterprise IA Platform</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+
+<div class="dash-wrap">
+  <!-- SIDEBAR -->
+  <aside class="dash-sidebar" id="sidebar">
+    <div class="dash-sidebar-logo">
+      <div class="logo-icon"></div>
+      <div class="logo-text">PROX<span>DEEP</span></div>
+    </div>
+    
+    <nav class="dash-nav">
+      <!-- General -->
+      <p class="dash-nav-section">General</p>
+      
+      <!-- CEO/Admin Vista Global -->
+      <a class="dash-nav-item" data-view="dashboard" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        Vista Global
+      </a>
+      
+      <!-- Líder de Área Vista -->
+      <a class="dash-nav-item" data-view="area" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Mi Departamento
+      </a>
+
+      <!-- Workspace IA (Fase 2) -->
+      <a class="dash-nav-item" data-view="workspace" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Workspace IA
+      </a>
+      
+      <!-- Empleado Vista -->
+      <a class="dash-nav-item" data-view="employee" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+        Asistente IA
+      </a>
+
+      <!-- Sección Administración -->
+      <p class="dash-nav-section">Administración</p>
+      <a class="dash-nav-item" data-view="users" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Directorio
+      </a>
+      <a class="dash-nav-item" data-view="areas" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+        Departamentos
+      </a>
+
+      <!-- Configuración -->
+      <p class="dash-nav-section">Sistema</p>
+      
+      <!-- Integraciones (Fase 2) -->
+      <a class="dash-nav-item" data-view="integrations" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Integraciones
+      </a>
+
+      <a class="dash-nav-item" data-view="settings" href="#">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        Configuración
+      </a>
+    </nav>
+    
+    <div class="dash-sidebar-footer">
+      <div class="dash-user-pill">
+        <div class="dash-user-avatar">U</div>
+        <div class="dash-user-info">
+          <p class="dash-user-name">Cargando...</p>
+          <p class="dash-user-role" id="sidebar-role">rol</p>
+        </div>
+      </div>
+      <button class="dash-logout-btn" id="logout-btn">Cerrar sesión</button>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="dash-main">
+    <div class="dash-topbar">
+      <div class="dash-topbar-left">
+        <h1 id="view-title">Cargando...</h1>
+      </div>
+
+      <!-- Búsqueda Global -->
+      <div class="dash-global-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="global-search-input" placeholder="Buscar documentos, políticas, tickets... (Ctrl+K)" />
+        <div class="search-results-modal" id="search-results">
+          <!-- Llenado dinámicamente -->
+        </div>
+      </div>
+
+      <div class="dash-topbar-right">
+        <div class="dash-user-avatar" id="topbar-avatar" title="Ir a configuración">U</div>
+      </div>
+    </div>
+
+    <div class="dash-content">
+
+      <!-- VISTA: VISTA GLOBAL (CEO/Admin) -->
+      <div class="dash-view" id="view-dashboard">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Salud Organizacional y ROI</p>
+            <p class="section-sub">Métricas de adopción de la IA en toda la empresa.</p>
+          </div>
+          <button class="btn-primary">Generar Reporte Global</button>
+        </div>
+
+        <div class="dash-stats">
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Tiempo Operativo Ahorrado</p>
+            <p class="dash-stat-value text-accent">1,420 h</p>
+            <span class="dash-stat-trend up">Este mes</span>
+          </div>
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Tickets Evitados</p>
+            <p class="dash-stat-value">3,850</p>
+            <span class="dash-stat-trend up">Resolución auto: 82%</span>
+          </div>
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Área con Mayor Adopción</p>
+            <p class="dash-stat-value">RRHH</p>
+            <span class="dash-stat-trend">42% del total de uso</span>
+          </div>
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Área con Más Fricción</p>
+            <p class="dash-stat-value text-warning">Ventas</p>
+            <span class="dash-stat-trend down">Aumento de tickets manuales</span>
+          </div>
+        </div>
+
+        <div class="dash-grid-2">
+          <div class="dash-card">
+            <p class="dash-card-title">Problemas Críticos Detectados (Empresa)</p>
+            <div class="table-container">
+              <table class="data-table">
+                <thead><tr><th>Área</th><th>Problema Detectado por IA</th><th>Impacto</th><th>Estado</th></tr></thead>
+                <tbody>
+                  <tr><td>Operaciones</td><td>Retrasos recurrentes en validación de QA</td><td>Alto</td><td><span class="badge badge-warning">En revisión</span></td></tr>
+                  <tr><td>RRHH</td><td>Dudas masivas sobre nueva póliza de salud</td><td>Medio</td><td><span class="badge badge-success">Mitigado por IA</span></td></tr>
+                  <tr><td>Tecnología</td><td>Falta de documentación en repositorio CORE</td><td>Alto</td><td><span class="badge badge-warning">En revisión</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="dash-card">
+            <p class="dash-card-title">Distribución de Consultas</p>
+            <div class="activity-list">
+              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 42%;"></div></div><div class="activity-info"><span>RRHH</span><span>42%</span></div></div>
+              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 25%;"></div></div><div class="activity-info"><span>Operaciones</span><span>25%</span></div></div>
+              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 18%;"></div></div><div class="activity-info"><span>Soporte</span><span>18%</span></div></div>
+              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 15%;"></div></div><div class="activity-info"><span>Ventas</span><span>15%</span></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: MI DEPARTAMENTO (Leader) -->
+      <div class="dash-view" id="view-area">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Panel de <span id="area-title-name">tu Departamento</span></p>
+            <p class="section-sub">Métricas de equipo y recursos activos.</p>
+          </div>
+        </div>
+
+        <div class="dash-stats">
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Resolución Automática</p>
+            <p class="dash-stat-value text-success">85%</p>
+            <span class="dash-stat-trend up">Óptimo</span>
+          </div>
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Tickets Escalados a Humanos</p>
+            <p class="dash-stat-value">24</p>
+            <span class="dash-stat-trend down">-12% vs sem. pasada</span>
+          </div>
+          <div class="dash-stat-card">
+            <p class="dash-stat-label">Documentos Indexados</p>
+            <p class="dash-stat-value">142</p>
+            <span class="dash-stat-trend">Base de conocimiento</span>
+          </div>
+        </div>
+
+        <div class="dash-grid-2">
+          <div class="dash-card">
+            <div class="card-header-flex">
+              <p class="dash-card-title">Problemas / Cuellos de Botella</p>
+              <button class="btn-ghost btn-sm">Ver todos</button>
+            </div>
+            <div class="table-container">
+              <table class="data-table">
+                <thead><tr><th>Descripción</th><th>Tickets Relacionados</th><th>Estado</th></tr></thead>
+                <tbody id="area-problems-tbody">
+                  <!-- Llenado dinámicamente -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+          
+          <div class="dash-card">
+            <div class="card-header-flex">
+              <p class="dash-card-title">Recursos Destacados del Área</p>
+              <button class="btn-ghost btn-sm">Gestionar</button>
+            </div>
+            <div class="resource-list" id="area-resources-list">
+              <!-- Llenado dinámicamente -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: WORKSPACE IA (Líder/CEO) - FASE 2 -->
+      <div class="dash-view" id="view-workspace">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Workspace Analítico</p>
+            <p class="section-sub">Canvas colaborativo con generación de IA profunda.</p>
+          </div>
+          <div>
+            <button class="btn-secondary">Exportar PDF</button>
+            <button class="btn-primary">Guardar Reporte</button>
+          </div>
+        </div>
+
+        <div class="workspace-layout">
+          <div class="workspace-editor">
+            <div class="workspace-title" contenteditable="true" data-placeholder="Título del documento...">Reporte de Eficiencia - Q3</div>
+            <div class="workspace-body" contenteditable="true" data-placeholder="Escribe '/' para insertar bloques generados por IA...">
+              <p>Este documento analiza la eficiencia del departamento de soporte basado en la interacción de la IA.</p>
+              <div class="ai-generated-block">
+                <p class="ai-block-badge">Generado por IA ProxDeep</p>
+                <strong>Hallazgos Clave:</strong>
+                <ul>
+                  <li>Reducción del 45% en tiempo de resolución de tickets nivel 1.</li>
+                  <li>El documento "Guía Básica 2026" fue citado 1,200 veces, evitando escalamientos manuales.</li>
+                </ul>
+              </div>
+              <p><br></p>
+            </div>
+          </div>
+          <div class="workspace-sidebar">
+            <div class="dash-card p-0" style="height: 100%; display: flex; flex-direction: column;">
+              <div class="card-header-flex" style="padding: 1rem 1rem 0;">
+                <p class="dash-card-title">Asistente Copilot</p>
+              </div>
+              <div style="padding: 0 1rem 1rem; font-size: 0.8rem; color: var(--dash-text-muted);">
+                Pide a la IA que redacte secciones basadas en la data corporativa.
+              </div>
+              <div class="workspace-chat-msgs" style="flex: 1; padding: 1rem; overflow-y: auto;">
+                <!-- Chat messages here -->
+              </div>
+              <div style="padding: 1rem; border-top: 1px solid var(--dash-border);">
+                <input type="text" placeholder="Ej. Resume los tickets de hoy..." style="width: 100%; padding: 0.5rem; background: var(--dash-bg); border: 1px solid var(--dash-border); border-radius: 6px; color: white;" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: ASISTENTE IA (Empleado) -->
+      <div class="dash-view" id="view-employee">
+        <div class="employee-layout">
+          <div class="employee-main">
+            <div class="dash-card chat-card">
+              <div class="chat-header">
+                <div>
+                  <h2 style="font-size: 1.1rem; margin: 0; font-weight: 600;">Asistente de <span id="emp-area-name">tu Área</span></h2>
+                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Consulta políticas, procesos o estado de tickets.</p>
+                </div>
+              </div>
+              <div class="dash-chat-area">
+                <div class="dash-chat-messages" id="emp-chat-msgs">
+                  <div class="msg ai">
+                    <div class="msg-content">
+                      <p>¡Hola! Tengo acceso a toda la base de conocimiento de tu área. ¿En qué te puedo ayudar hoy?</p>
+                    </div>
+                  </div>
+                </div>
+                <div class="dash-chat-input-row">
+                  <input type="text" id="emp-chat-input" placeholder="Pregunta algo o busca información..." />
+                  <button id="emp-chat-send">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="employee-sidebar">
+            <div class="dash-card">
+              <p class="dash-card-title">Acciones Rápidas</p>
+              <div class="quick-actions-list" id="emp-quick-actions">
+                <!-- Llenado dinámicamente -->
+              </div>
+            </div>
+            <div class="dash-card" style="margin-top: 1rem;">
+              <p class="dash-card-title">Recursos Destacados</p>
+              <div class="resource-list" id="emp-resources-list">
+                <!-- Llenado dinámicamente -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: DIRECTORIO DE USUARIOS -->
+      <div class="dash-view" id="view-users">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Directorio de Usuarios</p>
+            <p class="section-sub">Administra el acceso y permisos granulares de los colaboradores.</p>
+          </div>
+          <button class="btn-primary" id="btn-new-user">+ Nuevo Usuario</button>
+        </div>
+
+        <div class="dash-card p-0">
+          <div class="table-container">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Colaborador</th>
+                  <th>Departamento</th>
+                  <th>Rol Base</th>
+                  <th>Estado</th>
+                  <th class="text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="users-tbody">
+                <!-- Llenado por dashboard.js -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: ÁREAS -->
+      <div class="dash-view" id="view-areas">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Departamentos y Automatizaciones</p>
+            <p class="section-sub">Gestión de la estructura organizativa y flujos automáticos.</p>
+          </div>
+          <div>
+            <button class="btn-secondary">Reglas Globales</button>
+            <button class="btn-primary">+ Nuevo Departamento</button>
+          </div>
+        </div>
+
+        <div class="dash-grid-3" id="areas-grid">
+          <!-- Llenado dinámicamente -->
+        </div>
+      </div>
+
+      <!-- VISTA: INTEGRACIONES (Fase 2) -->
+      <div class="dash-view" id="view-integrations">
+        <div class="view-header">
+          <div>
+            <p class="section-title">Integraciones Avanzadas</p>
+            <p class="section-sub">Conecta ProxDeep con el ecosistema de tu empresa para enriquecer el contexto.</p>
+          </div>
+        </div>
+
+        <div class="dash-grid-3">
+          <!-- Slack -->
+          <div class="dash-card integration-card">
+            <div class="flex-between mb-3">
+              <div class="integration-icon" style="background:#4A154B; color:white;">Sl</div>
+              <div class="toggle-switch active"></div>
+            </div>
+            <p class="dash-card-title mb-1">Slack</p>
+            <p class="settings-desc">ProxDeep responde a hilos en Slack y abre tickets automáticos.</p>
+          </div>
+          <!-- Jira -->
+          <div class="dash-card integration-card">
+            <div class="flex-between mb-3">
+              <div class="integration-icon" style="background:#0052CC; color:white;">Ji</div>
+              <div class="toggle-switch active"></div>
+            </div>
+            <p class="dash-card-title mb-1">Jira Software</p>
+            <p class="settings-desc">Sincronización bidireccional de incidencias y estado de proyectos.</p>
+          </div>
+          <!-- Google Drive -->
+          <div class="dash-card integration-card">
+            <div class="flex-between mb-3">
+              <div class="integration-icon" style="background:#FFBA00; color:white;">GD</div>
+              <div class="toggle-switch"></div>
+            </div>
+            <p class="dash-card-title mb-1">Google Drive</p>
+            <p class="settings-desc">Indexación continua de documentos compartidos de la compañía.</p>
+          </div>
+          <!-- Notion -->
+          <div class="dash-card integration-card">
+            <div class="flex-between mb-3">
+              <div class="integration-icon" style="background:#000000; color:white;">No</div>
+              <div class="toggle-switch active"></div>
+            </div>
+            <p class="dash-card-title mb-1">Notion</p>
+            <p class="settings-desc">Lectura de Wikis organizacionales y actualización de estado.</p>
+          </div>
+          <!-- Salesforce -->
+          <div class="dash-card integration-card">
+            <div class="flex-between mb-3">
+              <div class="integration-icon" style="background:#00A1E0; color:white;">Sf</div>
+              <div class="toggle-switch"></div>
+            </div>
+            <p class="dash-card-title mb-1">Salesforce</p>
+            <p class="settings-desc">Consulta de métricas de ventas y pipeline comercial en tiempo real.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- VISTA: AJUSTES -->
+      <div class="dash-view" id="view-settings">
+        <!-- Contenido anterior se mantiene minimizado -->
+        <div class="view-header"><div><p class="section-title">Configuración del Sistema</p></div></div>
+        <div class="dash-grid-2">
+          <div class="dash-card"><p class="dash-card-title">Facturación</p><p class="settings-desc">Plan actual: <strong>Enterprise</strong></p></div>
+          <div class="dash-card"><p class="dash-card-title">Seguridad</p><p class="settings-desc">Autenticación 2FA Activada.</p></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<!-- MODAL PERMISOS GRANULARES (Fase 2) -->
+<div class="modal-overlay" id="permissions-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 style="margin:0; font-size:1.1rem;">Matriz de Permisos Avanzados</h3>
+      <button class="btn-ghost" id="close-modal" style="padding:0;">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="settings-desc mb-3">Ajustando permisos para: <strong id="modal-user-name">Usuario</strong></p>
+      
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>Módulo / Documento</th>
+            <th>Lectura</th>
+            <th>Edición</th>
+            <th>Aprobación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Políticas de RRHH</td>
+            <td><input type="checkbox" checked disabled></td>
+            <td><input type="checkbox"></td>
+            <td><input type="checkbox"></td>
+          </tr>
+          <tr>
+            <td>Reportes Financieros (Q1-Q4)</td>
+            <td><input type="checkbox"></td>
+            <td><input type="checkbox"></td>
+            <td><input type="checkbox"></td>
+          </tr>
+          <tr>
+            <td>Tickets de Nivel 3 (Core)</td>
+            <td><input type="checkbox" checked></td>
+            <td><input type="checkbox" checked></td>
+            <td><input type="checkbox"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="modal-footer" style="padding: 1rem; border-top: 1px solid var(--dash-border); display: flex; justify-content: flex-end; gap: 1rem;">
+      <button class="btn-secondary" onclick="document.getElementById('permissions-modal').classList.remove('active')">Cancelar</button>
+      <button class="btn-primary" onclick="document.getElementById('permissions-modal').classList.remove('active'); alert('Permisos guardados con éxito.')">Guardar Cambios</button>
+    </div>
+  </div>
+</div>
+
+<script src="dashboard.js"></script>
+</body>
+</html>
