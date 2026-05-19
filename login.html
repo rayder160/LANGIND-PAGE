@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProxDeep · Iniciar sesión</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    body { overflow: hidden; }
+
+    .login-page {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+    }
+
+    /* ---- Panel izquierdo: visual ---- */
+    .login-visual {
+      position: relative;
+      background: radial-gradient(circle at 30% 40%, #0a1e5e 0%, #020617 70%);
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      padding: 2.5rem 3rem;
+      overflow: hidden;
+    }
+    .login-visual-canvas {
+      position: absolute; inset: 0; pointer-events: none; z-index: 0;
+    }
+    .login-visual-content { position: relative; z-index: 1; }
+    .login-visual-logo { display: flex; align-items: center; gap: 10px; margin-bottom: auto; }
+    .login-visual-logo .logo-text { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-main); }
+    .login-visual-logo .logo-text span { color: var(--accent); }
+    .login-visual-logo .logo-sub { font-size: 0.5rem; letter-spacing: 0.18em; color: var(--text-muted); display: block; margin-top: -2px; font-weight: 400; }
+
+    .login-visual-mid {
+      position: relative; z-index: 1;
+      flex: 1; display: flex; flex-direction: column;
+      justify-content: center; padding: 3rem 0;
+    }
+    .login-visual-mid h2 {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      line-height: 1.2; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .login-visual-mid p { color: var(--text-muted); font-size: 0.95rem; line-height: 1.65; max-width: 380px; }
+
+    .login-visual-stats {
+      position: relative; z-index: 1;
+      display: flex; gap: 2rem; flex-wrap: wrap;
+    }
+    .login-stat { }
+    .login-stat-num { font-size: 1.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
+    .login-stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 2px; }
+
+    /* ---- Panel derecho: formulario ---- */
+    .login-form-panel {
+      background: #030712;
+      display: flex; align-items: center; justify-content: center;
+      padding: 2rem;
+    }
+    .login-box {
+      width: 100%; max-width: 400px;
+    }
+    .login-box-header { margin-bottom: 2rem; }
+    .login-box-header h1 { font-size: 1.6rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-main); }
+    .login-box-header p { font-size: 0.9rem; color: var(--text-muted); }
+    .login-box-header p a { color: var(--accent); text-decoration: none; }
+    .login-box-header p a:hover { text-decoration: underline; }
+
+    /* Botón Google */
+    .btn-google {
+      width: 100%; display: flex; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px; color: var(--text-main);
+      font-size: 0.92rem; font-weight: 500;
+      cursor: pointer; transition: background 0.2s, border-color 0.2s;
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-google:hover { background: rgba(255,255,255,0.09); border-color: rgba(255,255,255,0.22); }
+    .btn-google svg { flex-shrink: 0; }
+
+    .login-divider {
+      display: flex; align-items: center; gap: 0.75rem;
+      margin: 1.4rem 0; color: var(--text-muted); font-size: 0.8rem;
+    }
+    .login-divider::before, .login-divider::after {
+      content: ""; flex: 1; height: 1px; background: rgba(148,163,184,0.12);
+    }
+
+    /* Campos */
+    .login-field { margin-bottom: 1rem; }
+    .login-field label { display: block; font-size: 0.82rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+    .login-field input {
+      width: 100%; padding: 0.7rem 0.9rem;
+      background: rgba(5,15,35,0.8);
+      border: 1px solid rgba(55,65,81,0.8);
+      border-radius: 10px; color: var(--text-main);
+      font-size: 0.9rem; font-family: 'Inter', sans-serif;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .login-field input:focus {
+      border-color: rgba(0,180,255,0.6);
+      box-shadow: 0 0 0 3px rgba(0,180,255,0.1);
+    }
+    .login-field input::placeholder { color: rgba(148,163,184,0.4); }
+
+    .login-field-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.4rem;
+    }
+    .login-field-row label { margin-bottom: 0; }
+    .login-forgot { font-size: 0.78rem; color: var(--accent); text-decoration: none; }
+    .login-forgot:hover { text-decoration: underline; }
+
+    .btn-login {
+      width: 100%; padding: 0.78rem;
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      border: none; border-radius: 12px;
+      color: white; font-size: 0.92rem; font-weight: 600;
+      cursor: pointer; font-family: 'Inter', sans-serif;
+      transition: transform 0.15s, box-shadow 0.15s;
+      box-shadow: 0 8px 24px rgba(0,180,255,0.35);
+      margin-top: 0.5rem;
+    }
+    .btn-login:hover { transform: translateY(-1px); box-shadow: 0 12px 32px rgba(0,180,255,0.5); }
+    .btn-login:active { transform: translateY(0); }
+    .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .login-error {
+      background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 10px; padding: 0.65rem 0.9rem;
+      font-size: 0.82rem; color: #fca5a5;
+      margin-bottom: 1rem; display: none;
+    }
+    .login-error.show { display: block; }
+
+    .login-footer {
+      margin-top: 1.8rem; text-align: center;
+      font-size: 0.75rem; color: var(--text-muted);
+    }
+    .login-footer a { color: var(--text-muted); text-decoration: none; }
+    .login-footer a:hover { color: var(--text-main); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      body { overflow: auto; }
+      .login-page { grid-template-columns: minmax(0,1fr); }
+      .login-visual { display: none; }
+      .login-form-panel { min-height: 100vh; padding: 2rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-page">
+
+    <!-- PANEL VISUAL IZQUIERDO -->
+    <div class="login-visual">
+      <canvas class="login-visual-canvas" id="login-canvas"></canvas>
+
+      <div class="login-visual-content">
+        <div class="login-visual-logo">
+          <svg style="width:32px;height:32px;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="hexGradL" cx="50%" cy="40%" r="60%">
+                <stop offset="0%" stop-color="#1a6fd4"/>
+                <stop offset="100%" stop-color="#0a1e5e"/>
+              </radialGradient>
+              <filter id="glowL">
+                <feGaussianBlur stdDeviation="1.5" result="blur"/>
+                <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+              </filter>
+            </defs>
+            <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGradL)" stroke="#1e4fa0" stroke-width="2"/>
+            <circle cx="50" cy="22" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <circle cx="71" cy="33" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <circle cx="71" cy="67" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <circle cx="50" cy="78" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <circle cx="29" cy="67" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <circle cx="29" cy="33" r="3" fill="#00cfff" filter="url(#glowL)"/>
+            <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+              <line x1="50" y1="22" x2="71" y2="33"/><line x1="71" y1="33" x2="71" y2="67"/>
+              <line x1="71" y1="67" x2="50" y2="78"/><line x1="50" y1="78" x2="29" y2="67"/>
+              <line x1="29" y1="67" x2="29" y2="33"/><line x1="29" y1="33" x2="50" y2="22"/>
+            </g>
+            <circle cx="50" cy="50" r="7" fill="#00cfff" filter="url(#glowL)" opacity="0.9"/>
+            <circle cx="50" cy="50" r="4" fill="#ffffff" opacity="0.8"/>
+            <text x="50" y="56" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="white" opacity="0.85">S</text>
+          </svg>
+          <div>
+            <span class="logo-text">PROX<span>DEEP</span></span>
+            <span class="logo-sub">Empresa Dedicada al Desarrollo con IA</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-visual-mid">
+        <h2>Tu empresa, potenciada por IA que la conoce por dentro.</h2>
+        <p>Accede a tu panel de ProxDeep y empieza a transformar cómo trabajan tus equipos desde hoy.</p>
+      </div>
+
+      <div class="login-visual-stats">
+        <div class="login-stat">
+          <p class="login-stat-num">60%</p>
+          <p class="login-stat-label">Reducción de tickets internos</p>
+        </div>
+        <div class="login-stat">
+          <p class="login-stat-num">3x</p>
+          <p class="login-stat-label">Más rápido que soporte humano</p>
+        </div>
+        <div class="login-stat">
+          <p class="login-stat-num">98%</p>
+          <p class="login-stat-label">Precisión en respuestas</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PANEL FORMULARIO DERECHO -->
+    <div class="login-form-panel">
+      <div class="login-box">
+        <div class="login-box-header">
+          <h1>Bienvenido de vuelta</h1>
+          <p>¿No tienes cuenta? <a href="demo.html">Agenda una demo</a></p>
+        </div>
+
+        <!-- Botón Google -->
+        <button class="btn-google" id="btn-google-login" type="button">
+          <svg width="18" height="18" viewBox="0 0 18 18" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
+            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
+            <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
+            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
+          </svg>
+          Continuar con Google
+        </button>
+
+        <div class="login-divider">o continúa con tu correo</div>
+
+        <!-- Error -->
+        <div class="login-error" id="login-error"></div>
+
+        <!-- Formulario email/contraseña -->
+        <form id="login-form" autocomplete="on">
+          <div class="login-field">
+            <label for="login-email">Correo corporativo</label>
+            <input type="email" id="login-email" name="email" placeholder="nombre@empresa.com" autocomplete="email" required />
+          </div>
+          <div class="login-field">
+            <div class="login-field-row">
+              <label for="login-password">Contraseña</label>
+              <a href="#" class="login-forgot">¿Olvidaste tu contraseña?</a>
+            </div>
+            <input type="password" id="login-password" name="password" placeholder="••••••••" autocomplete="current-password" required />
+          </div>
+          <button type="submit" class="btn-login" id="btn-submit">Iniciar sesión</button>
+        </form>
+
+        <div class="login-footer">
+          <a href="index.html">← Volver al inicio</a>
+          &nbsp;·&nbsp;
+          <a href="#">Términos</a>
+          &nbsp;·&nbsp;
+          <a href="#">Privacidad</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ===== CANVAS PARTÍCULAS PANEL IZQUIERDO =====
+    const lc = document.getElementById('login-canvas');
+    if (lc) {
+      const ctx = lc.getContext('2d');
+      const wrap = lc.parentElement;
+      let W = lc.width = wrap.offsetWidth;
+      let H = lc.height = wrap.offsetHeight;
+      const pts = [];
+      for (let i = 0; i < 55; i++) {
+        pts.push({ x: Math.random()*W, y: Math.random()*H,
+          r: Math.random()*1.4+0.4,
+          dx: (Math.random()-0.5)*0.35, dy: (Math.random()-0.5)*0.35,
+          a: Math.random()*0.4+0.1 });
+      }
+      function draw() {
+        ctx.clearRect(0,0,W,H);
+        pts.forEach(p => {
+          ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+          ctx.fillStyle = 'rgba(0,180,255,'+p.a+')'; ctx.fill();
+          p.x+=p.dx; p.y+=p.dy;
+          if(p.x<0||p.x>W) p.dx*=-1;
+          if(p.y<0||p.y>H) p.dy*=-1;
+        });
+        for(let i=0;i<pts.length;i++) for(let j=i+1;j<pts.length;j++){
+          const d=Math.hypot(pts[i].x-pts[j].x,pts[i].y-pts[j].y);
+          if(d<90){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);
+            ctx.strokeStyle='rgba(0,180,255,'+(0.07*(1-d/90))+')';ctx.lineWidth=0.5;ctx.stroke();}
+        }
+        requestAnimationFrame(draw);
+      }
+      draw();
+      window.addEventListener('resize',()=>{W=lc.width=wrap.offsetWidth;H=lc.height=wrap.offsetHeight;});
+    }
+
+    // ===== GOOGLE OAUTH =====
+    // INSTRUCCIONES:
+    // 1. Ve a https://console.cloud.google.com/
+    // 2. Crea un proyecto → APIs & Services → Credentials → Create OAuth 2.0 Client ID
+    // 3. Tipo: Web application
+    // 4. Authorized JavaScript origins: http://localhost (o tu dominio)
+    // 5. Pega tu Client ID abajo donde dice TU_CLIENT_ID_AQUI
+    const GOOGLE_CLIENT_ID = 'TU_CLIENT_ID_AQUI';
+
+    function initGoogleLogin() {
+      if (typeof google === 'undefined') return;
+      google.accounts.id.initialize({
+        client_id: GOOGLE_CLIENT_ID,
+        callback: handleGoogleCredential,
+        auto_select: false,
+        cancel_on_tap_outside: true,
+      });
+    }
+
+    function handleGoogleCredential(response) {
+      // Decodifica el JWT de Google (sin verificación de firma — solo frontend)
+      const payload = JSON.parse(atob(response.credential.split('.')[1]));
+      const user = {
+        name: payload.name,
+        email: payload.email,
+        picture: payload.picture,
+        provider: 'google',
+        loginAt: new Date().toISOString(),
+      };
+      saveSessionAndRedirect(user);
+    }
+
+    document.getElementById('btn-google-login').addEventListener('click', () => {
+      if (GOOGLE_CLIENT_ID === 'TU_CLIENT_ID_AQUI') {
+        showError('Para activar el login con Google, pega tu Client ID en login.html (línea con GOOGLE_CLIENT_ID). Instrucciones en el código.');
+        return;
+      }
+      if (typeof google !== 'undefined') {
+        google.accounts.id.prompt();
+      } else {
+        showError('No se pudo cargar Google Sign-In. Verifica tu conexión a internet.');
+      }
+    });
+
+    // ===== LOGIN EMAIL/CONTRASEÑA =====
+    // Demo: acepta cualquier email con contraseña de 6+ caracteres
+    // En producción conecta esto a tu backend/API
+    const DEMO_USERS = [
+      { email: 'admin@proxdeep.com', password: 'proxdeep123', name: 'Admin ProxDeep', role: 'admin' },
+      { email: 'demo@empresa.com',   password: 'demo1234',    name: 'Usuario Demo',   role: 'user'  },
+    ];
+
+    document.getElementById('login-form').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const email    = document.getElementById('login-email').value.trim();
+      const password = document.getElementById('login-password').value;
+      const btn      = document.getElementById('btn-submit');
+
+      clearError();
+      btn.disabled = true;
+      btn.textContent = 'Verificando...';
+
+      try {
+        const response = await fetch('/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password })
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data.success && data.user) {
+            saveSessionAndRedirect(data.user);
+            return;
+          }
+        }
+        
+        // Fallback or error
+        showError('Correo o contraseña incorrectos.');
+        btn.disabled = false;
+        btn.textContent = 'Iniciar sesión';
+      } catch (err) {
+        // Fallback local if backend is down
+        console.warn("Backend no disponible, usando fallback local.");
+        setTimeout(() => {
+          let role = "employee", area = "Soporte";
+          if(email.includes("ceo")) { role = "ceo"; area = "Gerencia"; }
+          else if(email.includes("admin")) { role = "admin"; area = "RRHH"; }
+          else if(email.includes("leader")) { role = "leader"; area = "Operaciones"; }
+
+          const user = { name: email.split('@')[0].capitalize() || 'Demo', email: email, role: role, area: area, provider: 'email', loginAt: new Date().toISOString() };
+          saveSessionAndRedirect(user);
+        }, 800);
+      }
+    });
+
+    String.prototype.capitalize = function() {
+      return this.charAt(0).toUpperCase() + this.slice(1);
+    }
+
+    function saveSessionAndRedirect(user) {
+      localStorage.setItem('proxdeep_user', JSON.stringify(user));
+      window.location.href = 'dashboard.html';
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('login-error');
+      el.textContent = msg; el.classList.add('show');
+    }
+    function clearError() {
+      document.getElementById('login-error').classList.remove('show');
+    }
+
+    // Inicializa Google cuando el script cargue
+    window.addEventListener('load', initGoogleLogin);
+
+    // Si ya hay sesión activa, redirige al dashboard
+    if (localStorage.getItem('proxdeep_user')) {
+      window.location.href = 'dashboard.html';
+    }
+  </script>
+</body>
+</html>

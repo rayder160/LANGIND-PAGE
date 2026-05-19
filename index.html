@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProxDeep · IA Organizacional</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div class="page-wrapper">
+
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- NAVBAR STICKY -->
+    <nav class="nav-sticky" id="nav-sticky">
+      <div class="logo">
+        <svg class="logo-img" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="hexGradNav" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#1a6fd4" />
+              <stop offset="100%" stop-color="#0a1e5e" />
+            </radialGradient>
+            <filter id="glowNav">
+              <feGaussianBlur stdDeviation="1.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+          <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGradNav)" stroke="#1e4fa0"
+            stroke-width="2" />
+          <circle cx="50" cy="22" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <circle cx="71" cy="33" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <circle cx="71" cy="67" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <circle cx="50" cy="78" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <circle cx="29" cy="67" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <circle cx="29" cy="33" r="3" fill="#00cfff" filter="url(#glowNav)" />
+          <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+            <line x1="50" y1="22" x2="71" y2="33" />
+            <line x1="71" y1="33" x2="71" y2="67" />
+            <line x1="71" y1="67" x2="50" y2="78" />
+            <line x1="50" y1="78" x2="29" y2="67" />
+            <line x1="29" y1="67" x2="29" y2="33" />
+            <line x1="29" y1="33" x2="50" y2="22" />
+          </g>
+          <circle cx="50" cy="50" r="7" fill="#00cfff" filter="url(#glowNav)" opacity="0.9" />
+          <circle cx="50" cy="50" r="4" fill="#ffffff" opacity="0.8" />
+          <text x="50" y="56" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="22"
+            font-weight="900" fill="white" opacity="0.85">S</text>
+        </svg>
+        <div>
+          <span class="logo-text">PROX<span>DEEP</span></span>
+          <span class="logo-sub">Empresa Dedicada al Desarrollo con IA</span>
+        </div>
+      </div>
+      <div class="nav-links" id="nav-links-sticky">
+        <a href="producto.html">Producto</a>
+        <a href="#servicios">Servicios</a>
+        <a href="#casos">Casos de uso</a>
+        <a href="planes.html">Planes</a>
+      </div>
+      <div class="nav-cta" id="nav-cta-sticky">
+        <a href="login.html" class="btn btn-outline">Iniciar sesión</a>
+        <a href="#contacto" class="btn btn-primary">Agendar demo</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle-sticky" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="nav-spacer"></div>
+
+    <header class="hero" id="top">
+      <div class="hero-content">
+        <div class="hero-text" data-animate="fade-up">
+          <p class="badge">IA para empresas · Pymes · Equipos de desarrollo</p>
+          <h1>La IA que trabaja dentro de tu empresa, 24/7.</h1>
+          <p class="hero-subtitle">
+            Dos productos en una plataforma: una IA que conoce tus procesos internos y un copiloto que programa con el
+            contexto de tu empresa.
+          </p>
+          <div class="hero-actions">
+            <a href="demo.html" class="btn btn-primary btn-lg">Agendar demo gratis</a>
+            <a href="producto.html" class="btn btn-ghost btn-lg">Ver cómo funciona</a>
+          </div>
+          <div class="hero-trust">
+            <span class="dot"></span>
+            Datos cifrados, sin usar tu información para entrenar modelos públicos.
+          </div>
+        </div>
+
+        <div class="hero-visual" data-animate="fade-left">
+          <div class="hero-card">
+            <div class="hero-card-header">
+              <span class="status-pill">Online</span>
+              <span class="status-dot"></span>
+            </div>
+            <div class="chat-window" id="hero-chat"></div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-gradient"></div>
+    </header>
+
+    <!-- SOCIAL PROOF BAR -->
+    <div class="social-proof" data-animate="fade-up">
+      <span class="social-proof-label">Empresas que confían en ProxDeep</span>
+      <div class="social-proof-logos">
+        <span class="social-proof-logo">Nexacore</span>
+        <span class="social-proof-logo">Veltrix</span>
+        <span class="social-proof-logo">Orbistech</span>
+        <span class="social-proof-logo">Stratumio</span>
+        <span class="social-proof-logo">Clariva</span>
+        <span class="social-proof-logo">Dendrix</span>
+      </div>
+    </div>
+
+    <main>
+      <!-- DOS PRODUCTOS -->
+      <section class="section" id="producto">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Dos productos. Una sola plataforma.</h2>
+          <p>ProxDeep combina una IA que entiende tu empresa con un copiloto que programa contigo. Cada uno resuelve un
+            problema distinto, ambos comparten el mismo conocimiento organizacional.</p>
+        </div>
+
+        <div class="product-split" data-animate="fade-up">
+          <!-- Producto 1: IA Organizacional -->
+          <div class="product-card">
+            <span class="product-card-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                <polyline points="9 22 9 12 15 12 15 22" />
+              </svg>
+              IA Organizacional
+            </span>
+            <h3>La IA que conoce tu empresa por dentro</h3>
+            <p>Monitorea ventas, detecta errores operativos, responde preguntas internas y centraliza el conocimiento de
+              toda tu organización. Como tener un analista senior disponible 24/7.</p>
+            <ul>
+              <li>Detecta cuellos de botella en ventas y operaciones.</li>
+              <li>Responde preguntas de RRHH, finanzas y procesos internos.</li>
+              <li>Analiza conversaciones y tickets para encontrar patrones.</li>
+              <li>Genera reportes automáticos por área.</li>
+              <li>Acceso controlado por rol: cada área ve lo suyo.</li>
+            </ul>
+            <a href="producto.html" class="product-cta">Ver más sobre IA Organizacional →</a>
+          </div>
+
+          <!-- Producto 2: IA para Código -->
+          <div class="product-card">
+            <span class="product-card-tag"
+              style="background:rgba(99,102,241,0.1);border-color:rgba(99,102,241,0.3);color:#a5b4fc;">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+              IA para Código · VS Code
+            </span>
+            <h3>El copiloto que programa con el contexto de tu empresa</h3>
+            <p>No es un Copilot genérico. Entiende tu arquitectura, tus convenciones y tus reglas de negocio. Sugiere
+              código que encaja con lo que ya tienes construido.</p>
+            <ul>
+              <li>Sugerencias alineadas con tus estándares de código.</li>
+              <li>Refactors que respetan la arquitectura existente.</li>
+              <li>Documentación automática de funciones y módulos.</li>
+              <li>Contexto de repositorios privados sin enviar código a terceros.</li>
+              <li>Compatible con cualquier lenguaje soportado por VS Code.</li>
+            </ul>
+            <a href="producto.html" class="product-cta" style="color:#a5b4fc;">Ver más sobre IA para Código →</a>
+          </div>
+        </div>
+      </section>
+
+      <!-- MÉTRICAS -->
+      <section class="metrics-section" data-animate="fade-up">
+        <div class="metric">
+          <span class="metric-number" data-target="98">0</span><span class="metric-unit">%</span>
+          <p>Precisión en respuestas</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="24">0</span><span class="metric-unit">/7</span>
+          <p>Disponibilidad garantizada</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="3">0</span><span class="metric-unit">x</span>
+          <p>Más rápido que soporte humano</p>
+        </div>
+        <div class="metric-divider"></div>
+        <div class="metric">
+          <span class="metric-number" data-target="60">0</span><span class="metric-unit">%</span>
+          <p>Reducción de tickets internos</p>
+        </div>
+      </section>
+
+      <!-- SERVICIOS -->
+      <section class="section alt" id="servicios">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Tres formas de usarla, una sola IA detrás</h2>
+          <p>
+            La misma IA potencia un chat organizacional para toda la empresa, vive en servidores seguros y se transforma
+            en copiloto dentro de Visual Studio Code.
+          </p>
+        </div>
+        <div class="services-layout">
+          <article class="card service" data-animate="fade-right">
+            <div class="service-icon-svg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+              </svg>
+            </div>
+            <h3>Chat empresarial privado</h3>
+            <p>Un asistente tipo chat entrenado con la información de tu empresa. Tus equipos pueden preguntarle desde
+              "¿cómo es la política de vacaciones?" hasta "¿qué debo responder a este cliente?".</p>
+            <ul>
+              <li>Chat privado vía web o intranet, solo para tu organización.</li>
+              <li>Entrenado con documentos, wikis, correos y bases internas.</li>
+              <li>Controles de acceso y registro de actividad para compliance.</li>
+            </ul>
+          </article>
+          <article class="card service" data-animate="fade-up">
+            <div class="service-icon-svg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <rect x="2" y="2" width="20" height="8" rx="2" />
+                <rect x="2" y="14" width="20" height="8" rx="2" />
+                <line x1="6" y1="6" x2="6.01" y2="6" />
+                <line x1="6" y1="18" x2="6.01" y2="18" />
+              </svg>
+            </div>
+            <h3>Servidores dedicados o compartidos</h3>
+            <p>Desplegamos tu IA en servidores compartidos de alto rendimiento o en servidores dedicados solo para tu
+              empresa, según el nivel de privacidad y rendimiento que necesites.</p>
+            <ul>
+              <li>Servidor compartido para pymes con costo optimizado.</li>
+              <li>Servidor dedicado con aislamiento total y recursos exclusivos.</li>
+              <li>Políticas claras: tus datos no entrenan modelos públicos.</li>
+            </ul>
+          </article>
+          <article class="card service" data-animate="fade-left">
+            <div class="service-icon-svg">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3>Extensión para Visual Studio Code</h3>
+            <p>La misma IA vive dentro de VS Code como extensión para programar. Entiende tu código, tu arquitectura y
+              tus reglas de negocio.</p>
+            <ul>
+              <li>Sugerencias de código y refactors adaptados a tus estándares.</li>
+              <li>Contexto de repositorios internos y documentación de producto.</li>
+              <li>Perfecta para equipos que quieren algo más que un Copilot genérico.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <!-- POR ÁREA -->
+      <section class="section" id="casos">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Resultados reales en cada área de tu empresa</h2>
+          <p>ProxDeep no es una herramienta genérica. Se adapta a los flujos de trabajo de cada departamento y entrega
+            valor desde el primer mes.</p>
+        </div>
+        <div class="grid grid-3" data-animate="fade-up">
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <polyline points="16 11 18 13 22 9" />
+              </svg>
+            </div>
+            <h3>Recursos Humanos</h3>
+            <p>Responde preguntas de onboarding, políticas de vacaciones y beneficios sin saturar al equipo de RRHH.
+              Reduce el tiempo de respuesta de días a segundos.</p>
+          </div>
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17" />
+                <polyline points="16 7 22 7 22 13" />
+              </svg>
+            </div>
+            <h3>Ventas</h3>
+            <p>Detecta oportunidades perdidas, analiza conversaciones con clientes y sugiere respuestas alineadas con tu
+              tono de marca. Cierra más con menos fricción.</p>
+          </div>
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <circle cx="12" cy="12" r="3" />
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14" />
+                <path d="M15.54 8.46a5 5 0 0 1 0 7.07M8.46 8.46a5 5 0 0 0 0 7.07" />
+              </svg>
+            </div>
+            <h3>Operaciones</h3>
+            <p>Documenta procesos automáticamente, detecta errores recurrentes y genera checklists operativos. Convierte
+              el caos operativo en flujos claros y repetibles.</p>
+          </div>
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <polyline points="16 18 22 12 16 6" />
+                <polyline points="8 6 2 12 8 18" />
+              </svg>
+            </div>
+            <h3>Tecnología</h3>
+            <p>Entiende código heredado, documenta APIs y sugiere refactors desde VS Code. El equipo de desarrollo
+              trabaja más rápido con contexto real de tu arquitectura.</p>
+          </div>
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <line x1="18" y1="20" x2="18" y2="10" />
+                <line x1="12" y1="20" x2="12" y2="4" />
+                <line x1="6" y1="20" x2="6" y2="14" />
+              </svg>
+            </div>
+            <h3>Gerencia</h3>
+            <p>Obtén reportes automáticos de cada área, identifica qué departamentos generan más fricción y toma
+              decisiones con datos reales de tu operación diaria.</p>
+          </div>
+          <div class="card usecase-v2">
+            <div class="usecase-v2-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                stroke-linejoin="round">
+                <path d="M3 18v-6a9 9 0 0 1 18 0v6" />
+                <path
+                  d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z" />
+              </svg>
+            </div>
+            <h3>Soporte Interno</h3>
+            <p>Resuelve el 60% de los tickets internos de forma automática. Los empleados obtienen respuestas precisas
+              al instante, sin esperar a que alguien esté disponible.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- IMPLEMENTACIÓN -->
+      <section class="section alt" id="implementacion">
+        <div class="section-header" data-animate="fade-up">
+          <h2>De cero a IA funcionando en semanas, no meses</h2>
+          <p>Te acompañamos en cada paso, desde el diagnóstico hasta la activación del copiloto en tu editor.</p>
+        </div>
+        <div class="steps" data-animate="fade-up">
+          <div class="step">
+            <span class="step-number">1</span>
+            <h3>Diagnóstico rápido</h3>
+            <p>Entendemos tus sistemas, fuentes de información y casos de uso prioritarios en una sesión de 30–60
+              minutos.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">2</span>
+            <h3>Conexión y despliegue</h3>
+            <p>Conectamos la IA a tus documentos y herramientas, y configuramos tu servidor compartido o dedicado.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">3</span>
+            <h3>Entrenamiento y ajustes</h3>
+            <p>Ajustamos respuestas, permisos y flujos según el feedback real de tus equipos.</p>
+          </div>
+          <div class="step">
+            <span class="step-number">4</span>
+            <h3>Copiloto en VS Code</h3>
+            <p>Activamos la extensión y la integramos en el flujo de trabajo de tu equipo de desarrollo.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- TESTIMONIOS -->
+      <section class="section" id="testimonios">
+        <div class="section-header" data-animate="fade-up">
+          <h2>Lo que dicen quienes ya lo usan</h2>
+          <p>Empresas que transformaron su operación con ProxDeep.</p>
+        </div>
+        <div class="testimonials" data-animate="fade-up">
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Antes tardábamos días en responder dudas de onboarding. Ahora el equipo de RRHH
+              tiene tiempo para lo que realmente importa. ProxDeep resuelve el 70% de las preguntas internas solo."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">MR</div>
+              <div>
+                <p class="testimonial-name">María Rodríguez</p>
+                <p class="testimonial-role">Head of People · Nexacore</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"El equipo de desarrollo ahora tiene un copiloto que entiende nuestra
+              arquitectura. No más horas perdidas leyendo código heredado. La productividad subió notablemente desde el
+              primer mes."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">CA</div>
+              <div>
+                <p class="testimonial-name">Carlos Andrade</p>
+                <p class="testimonial-role">CTO · Veltrix</p>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card">
+            <p class="testimonial-text">"Gerencia ahora tiene visibilidad real de cada área. ProxDeep detectó un cuello
+              de botella en ventas que llevaba meses sin que nadie lo viera. Eso solo ya justificó la inversión."</p>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">LP</div>
+              <div>
+                <p class="testimonial-name">Laura Peña</p>
+                <p class="testimonial-role">CEO · Orbistech</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA FINAL -->
+      <section class="cta-final" data-animate="fade-up">
+        <div class="cta-glow"></div>
+        <h2>¿Listo para transformar cómo trabaja tu empresa?</h2>
+        <p>Demo de 30 minutos con datos reales de tu empresa. Sin compromiso.</p>
+        <div class="cta-final-actions">
+          <a href="demo.html" class="btn btn-primary btn-lg">Agendar demo gratuita</a>
+          <a href="planes.html" class="btn btn-ghost btn-lg">Ver planes</a>
+        </div>
+        <p class="cta-trust">
+          <span class="dot"></span>
+          Datos cifrados · Sin entrenar modelos públicos · Implementación en semanas
+        </p>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="logo">
+            <svg class="logo-img" style="width:28px;height:28px;" viewBox="0 0 100 100"
+              xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="hexGrad2" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#1a6fd4" />
+                  <stop offset="100%" stop-color="#0a1e5e" />
+                </radialGradient>
+              </defs>
+              <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGrad2)" stroke="#1e4fa0"
+                stroke-width="2" />
+              <circle cx="50" cy="22" r="3" fill="#00cfff" />
+              <circle cx="71" cy="33" r="3" fill="#00cfff" />
+              <circle cx="71" cy="67" r="3" fill="#00cfff" />
+              <circle cx="50" cy="78" r="3" fill="#00cfff" />
+              <circle cx="29" cy="67" r="3" fill="#00cfff" />
+              <circle cx="29" cy="33" r="3" fill="#00cfff" />
+              <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+                <line x1="50" y1="22" x2="71" y2="33" />
+                <line x1="71" y1="33" x2="71" y2="67" />
+                <line x1="71" y1="67" x2="50" y2="78" />
+                <line x1="50" y1="78" x2="29" y2="67" />
+                <line x1="29" y1="67" x2="29" y2="33" />
+                <line x1="29" y1="33" x2="50" y2="22" />
+              </g>
+              <circle cx="50" cy="50" r="6" fill="#00cfff" opacity="0.9" />
+              <circle cx="50" cy="50" r="3" fill="#ffffff" opacity="0.8" />
+            </svg>
+            <span class="logo-text">PROX<span>DEEP</span></span>
+          </div>
+          <p>IA organizacional, servidores seguros y copiloto para código en una sola plataforma.</p>
+        </div>
+        <div class="footer-links">
+          <div class="footer-col">
+            <p class="footer-col-title">Producto</p>
+            <a href="producto.html">IA Organizacional</a>
+            <a href="producto.html">IA para Código</a>
+            <a href="planes.html">Planes</a>
+          </div>
+          <div class="footer-col">
+            <p class="footer-col-title">Empresa</p>
+            <a href="demo.html">Agendar demo</a>
+            <a href="#casos">Casos de uso</a>
+            <a href="#testimonios">Clientes</a>
+          </div>
+        </div>
+        <div class="footer-right">
+          <a href="#top">Volver arriba ↑</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 ProxDeep. Todos los derechos reservados.</span>
+        <span style="color:rgba(148,163,184,0.3);">·</span>
+        <span>Datos cifrados · Sin entrenar modelos públicos</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ROBOT ASISTENTE -->
+  <div class="bot-wrapper" id="bot-wrapper">
+    <div class="bot-bubbles" id="bot-bubbles">
+      <span class="bot-bubble" id="bot-bubble-text">IA disponible 24/7</span>
+    </div>
+    <button class="bot-btn" id="bot-btn" aria-label="Abrir asistente ProxDeep">
+      <div class="bot-face">
+        <div class="bot-eyes">
+          <span class="bot-eye"></span>
+          <span class="bot-eye"></span>
+        </div>
+        <div class="bot-mouth"></div>
+      </div>
+      <div class="bot-pulse"></div>
+    </button>
+    <div class="bot-chat" id="bot-chat">
+      <div class="bot-chat-header">
+        <div class="bot-chat-avatar">🤖</div>
+        <div>
+          <strong>ProxDeep AI</strong>
+          <span class="bot-online">● En línea</span>
+        </div>
+        <button class="bot-close" id="bot-close" aria-label="Cerrar chat">✕</button>
+      </div>
+      <div class="bot-chat-messages" id="bot-chat-messages">
+        <div class="bot-msg bot-msg-ai">
+          <p>¡Hola! Soy el asistente de ProxDeep 👋 ¿En qué puedo ayudarte hoy?</p>
+        </div>
+      </div>
+      <div class="bot-chat-input">
+        <input type="text" id="bot-input" placeholder="Escribe tu pregunta..." />
+        <button id="bot-send" aria-label="Enviar">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
