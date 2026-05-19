@@ -155,32 +155,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const groups = [
       [
-        { type: 'user', role: 'Recursos Humanos', text: 'Como es el proceso de onboarding para nuevos empleados?' },
-        { type: 'ai',   role: 'ProxDeep AI', text: 'Tiene 4 etapas: bienvenida el dia 1, capacitacion tecnica dias 2-5, asignacion de mentor semana 2 y evaluacion al mes.' },
-        { type: 'user', role: 'Operaciones', text: 'Cual es el flujo para aprobar una solicitud de gastos?' },
-        { type: 'ai',   role: 'ProxDeep AI', text: 'Tu lider valida el monto, Finanzas revisa comprobantes y Direccion aprueba si supera el limite del area.' },
+        { type: 'user', role: 'Recursos Humanos', text: '¿Cómo es el proceso de onboarding para nuevos empleados?' },
+        { type: 'ai',   role: 'ProxDeep AI', text: 'Tiene 4 etapas: bienvenida el día 1, capacitación técnica días 2–5, asignación de mentor semana 2 y evaluación al mes.' },
+        { type: 'user', role: 'Operaciones', text: '¿Cuál es el flujo para aprobar una solicitud de gastos?' },
+        { type: 'ai',   role: 'ProxDeep AI', text: 'Tu líder valida el monto, Finanzas revisa comprobantes y Dirección aprueba si supera el límite del área.' },
       ],
       [
-        { type: 'user', role: 'Dev - VS Code', text: 'Genera una funcion para validar el limite de gastos.' },
-        { type: 'code', role: 'ProxDeep - Codigo', text: 'function validarGasto(monto, limite) {\n  return monto <= limite;\n}' },
-        { type: 'user', role: 'Tecnologia', text: 'Explica la arquitectura del modulo de pagos.' },
+        { type: 'user', role: 'Dev - VS Code', text: 'Genera una función para validar el límite de gastos.' },
+        { type: 'code', role: 'ProxDeep - Código', text: 'function validarGasto(monto, limite) {\n  return monto <= limite;\n}' },
+        { type: 'user', role: 'Tecnología', text: 'Explica la arquitectura del módulo de pagos.' },
         { type: 'ai',   role: 'ProxDeep AI', text: 'Usa una API REST con JWT. Los pagos pasan por un gateway externo y se registran con estado pendiente, aprobado o rechazado.' },
       ],
       [
-        { type: 'user', role: 'Ventas', text: 'Como respondo a un cliente que pregunta por precios?' },
-        { type: 'ai',   role: 'ProxDeep AI', text: 'Saluda por su nombre, presenta el plan segun su tamano de empresa y ofrece una demo gratuita de 30 minutos.' },
-        { type: 'user', role: 'Soporte Interno', text: 'Cuantos dias de vacaciones corresponden al primer ano?' },
-        { type: 'ai',   role: 'ProxDeep AI', text: 'Segun la politica de RRHH vigente, corresponden 12 dias habiles al cumplir el primer ano de antiguedad.' },
+        { type: 'user', role: 'Ventas', text: '¿Cómo respondo a un cliente que pregunta por precios?' },
+        { type: 'ai',   role: 'ProxDeep AI', text: 'Salúdalo por su nombre, presenta el plan según el tamaño de su empresa y ofrece una demo gratuita de 30 minutos.' },
+        { type: 'user', role: 'Soporte Interno', text: '¿Cuántos días de vacaciones corresponden al primer año?' },
+        { type: 'ai',   role: 'ProxDeep AI', text: 'Según la política de RRHH vigente, corresponden 12 días hábiles al cumplir el primer año de antigüedad.' },
       ],
       [
-        { type: 'user', role: 'Gerencia', text: 'Que areas tienen mas tickets de soporte este mes?' },
-        { type: 'ai',   role: 'ProxDeep AI', text: 'Segun los registros: Operaciones 34%, Ventas 28%, TI 22% y RRHH 16%. Operaciones lidera por dudas de procesos internos.' },
-        { type: 'user', role: 'Dev - VS Code', text: 'Refactoriza esta funcion para que sea mas eficiente.' },
-        { type: 'code', role: 'ProxDeep - Codigo', text: 'const calcTotal = (items) =>\n  items.reduce((sum, i) => sum + i.precio, 0);' },
+        { type: 'user', role: 'Gerencia', text: '¿Qué áreas tienen más tickets de soporte este mes?' },
+        { type: 'ai',   role: 'ProxDeep AI', text: 'Según los registros: Operaciones 34%, Ventas 28%, TI 22% y RRHH 16%. Operaciones lidera por dudas de procesos internos.' },
+        { type: 'user', role: 'Dev - VS Code', text: 'Refactoriza esta función para que sea más eficiente.' },
+        { type: 'code', role: 'ProxDeep - Código', text: 'const calcTotal = (items) =>\n  items.reduce((sum, i) => sum + i.precio, 0);' },
       ],
     ];
 
-    // Elegir grupo aleatorio al cargar la pagina
+    // Elegir grupo aleatorio al cargar la página
     const groupIdx = Math.floor(Math.random() * groups.length);
     // Ciclo: al terminar el grupo actual, pasa al siguiente
     let currentGroup = groupIdx;
