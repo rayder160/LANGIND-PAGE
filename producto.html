@@ -1,0 +1,406 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ProxDeep Â· Producto</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .page-hero {
+      padding: 80px 7vw 60px;
+      text-align: center;
+      position: relative;
+    }
+    .page-hero h1 {
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff 40%, var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .page-hero p {
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      font-size: 1.05rem;
+      line-height: 1.7;
+    }
+    .page-hero-gradient {
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(0,180,255,0.12), transparent 60%);
+      pointer-events: none; z-index: -1;
+    }
+    .deep-section { padding: 56px 7vw; }
+    .deep-section.alt {
+      background: radial-gradient(circle at top, rgba(0,20,50,0.6), rgba(2,6,23,0.98));
+      border-radius: 32px;
+      border: 1px solid rgba(0,100,200,0.3);
+      margin: 0 7vw 28px;
+      padding: 56px 4vw;
+    }
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0,1fr) minmax(0,1fr);
+      gap: 3rem;
+      align-items: center;
+    }
+    .two-col.reverse { direction: rtl; }
+    .two-col.reverse > * { direction: ltr; }
+    .col-text h2 {
+      font-size: 1.7rem;
+      margin-bottom: 0.8rem;
+      background: linear-gradient(135deg, #fff 50%, var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .col-text p { color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
+    .col-text ul { list-style: none; color: var(--text-muted); font-size: 0.92rem; }
+    .col-text ul li { padding-left: 1.2rem; position: relative; margin-bottom: 0.5rem; }
+    .col-text ul li::before { content: "â†’"; position: absolute; left: 0; color: var(--accent); }
+    .col-visual {
+      background: rgba(5,15,35,0.9);
+      border-radius: 20px;
+      border: 1px solid rgba(0,180,255,0.2);
+      padding: 2rem;
+      min-height: 260px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .col-visual::before {
+      content: "";
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(0,180,255,0.1), transparent 60%);
+    }
+    .col-visual-inner { position: relative; z-index: 1; text-align: center; }
+    .col-visual-icon {
+      width: 72px; height: 72px;
+      border-radius: 20px;
+      background: rgba(0,180,255,0.1);
+      border: 1px solid rgba(0,180,255,0.3);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+    }
+    .col-visual-icon svg { width: 36px; height: 36px; stroke: var(--accent); }
+    .col-visual-inner p { color: var(--text-muted); font-size: 0.88rem; max-width: 220px; margin: 0 auto; }
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 1.2rem;
+      margin-top: 2rem;
+    }
+    .tech-item {
+      background: rgba(5,15,35,0.85);
+      border: 1px solid rgba(0,180,255,0.15);
+      border-radius: 14px;
+      padding: 1.2rem;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .tech-item:hover { border-color: rgba(0,180,255,0.4); transform: translateY(-3px); }
+    .tech-item h4 { font-size: 0.9rem; margin-bottom: 0.3rem; color: var(--text-main); }
+    .tech-item p { font-size: 0.82rem; color: var(--text-muted); }
+    .tech-badge {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      background: rgba(0,180,255,0.1);
+      border: 1px solid rgba(0,180,255,0.3);
+      color: var(--accent);
+      font-size: 0.68rem;
+      margin-bottom: 0.5rem;
+    }
+    @media (max-width: 768px) {
+      .two-col, .tech-grid { grid-template-columns: minmax(0,1fr); }
+      .two-col.reverse { direction: ltr; }
+      .deep-section.alt { margin: 0 0 28px; border-radius: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-wrapper">
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- NAVBAR -->
+    <nav class="nav-sticky" id="nav-sticky">
+      <div class="logo">
+        <svg class="logo-img" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="hexGradNav" cx="50%" cy="40%" r="60%">
+              <stop offset="0%" stop-color="#1a6fd4"/>
+              <stop offset="100%" stop-color="#0a1e5e"/>
+            </radialGradient>
+            <filter id="glowNav">
+              <feGaussianBlur stdDeviation="1.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGradNav)" stroke="#1e4fa0" stroke-width="2"/>
+          <circle cx="50" cy="22" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <circle cx="71" cy="33" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <circle cx="71" cy="67" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <circle cx="50" cy="78" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <circle cx="29" cy="67" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <circle cx="29" cy="33" r="3" fill="#00cfff" filter="url(#glowNav)"/>
+          <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+            <line x1="50" y1="22" x2="71" y2="33"/><line x1="71" y1="33" x2="71" y2="67"/>
+            <line x1="71" y1="67" x2="50" y2="78"/><line x1="50" y1="78" x2="29" y2="67"/>
+            <line x1="29" y1="67" x2="29" y2="33"/><line x1="29" y1="33" x2="50" y2="22"/>
+          </g>
+          <circle cx="50" cy="50" r="7" fill="#00cfff" filter="url(#glowNav)" opacity="0.9"/>
+          <circle cx="50" cy="50" r="4" fill="#ffffff" opacity="0.8"/>
+          <text x="50" y="56" text-anchor="middle" font-family="Arial Black, sans-serif" font-size="22" font-weight="900" fill="white" opacity="0.85">S</text>
+        </svg>
+        <div>
+          <span class="logo-text">PROX<span>DEEP</span></span>
+          <span class="logo-sub">Empresa Dedicada al Desarrollo con IA</span>
+        </div>
+      </div>
+      <div class="nav-links" id="nav-links-sticky">
+        <a href="index.html#producto">Producto</a>
+        <a href="index.html#servicios">Servicios</a>
+        <a href="index.html#casos">Casos de uso</a>
+        <a href="planes.html">Planes</a>
+      </div>
+      <div class="nav-cta" id="nav-cta-sticky">
+        <a href="login.html" class="btn btn-outline">Iniciar sesiÃ³n</a>
+        <a href="demo.html" class="btn btn-primary">Agendar demo</a>
+      </div>
+      <button class="nav-toggle" id="nav-toggle-sticky" aria-label="Abrir menÃº">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+    <div class="nav-spacer"></div>
+
+    <main>
+      <!-- HERO -->
+      <section class="page-hero" data-animate="fade-up">
+        <div class="page-hero-gradient"></div>
+        <p class="badge">Plataforma Â· Arquitectura Â· Capacidades</p>
+        <h1>Una IA construida para operar dentro de tu empresa</h1>
+        <p>ProxDeep no es un chatbot genÃ©rico. Es una plataforma de inteligencia artificial organizacional que aprende de tus datos, respeta tu privacidad y se integra en los flujos de trabajo reales de tu equipo.</p>
+        <a href="demo.html" class="btn btn-primary btn-lg">Agendar demo</a>
+      </section>
+
+      <!-- SECCIÃ“N 1: Conocimiento organizacional -->
+      <section class="deep-section" data-animate="fade-up">
+        <div class="two-col">
+          <div class="col-text">
+            <span class="tech-badge">Capa de conocimiento</span>
+            <h2>Tu empresa como base de conocimiento</h2>
+            <p>ProxDeep ingiere y procesa documentos internos, wikis, correos, bases de datos y conversaciones pasadas para construir un modelo de conocimiento especÃ­fico de tu organizaciÃ³n.</p>
+            <p>A diferencia de los modelos pÃºblicos, la IA no mezcla tu informaciÃ³n con la de otras empresas. Cada instancia es aislada y privada.</p>
+            <ul>
+              <li>Soporte para PDF, DOCX, Notion, Confluence, Google Drive y mÃ¡s.</li>
+              <li>ActualizaciÃ³n continua del conocimiento sin reentrenamiento manual.</li>
+              <li>BÃºsqueda semÃ¡ntica sobre toda la base documental.</li>
+              <li>Control de versiones y trazabilidad de fuentes.</li>
+            </ul>
+          </div>
+          <div class="col-visual">
+            <div class="col-visual-inner">
+              <div class="col-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                  <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                  <line x1="8" y1="7" x2="16" y2="7"/>
+                  <line x1="8" y1="11" x2="16" y2="11"/>
+                  <line x1="8" y1="15" x2="12" y2="15"/>
+                </svg>
+              </div>
+              <p>Documentos, wikis y bases internas convertidos en conocimiento accionable</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÃ“N 2: Infraestructura -->
+      <section class="deep-section alt" data-animate="fade-up">
+        <div class="two-col reverse">
+          <div class="col-text">
+            <span class="tech-badge">Infraestructura</span>
+            <h2>Servidores que se adaptan a tu nivel de privacidad</h2>
+            <p>Ofrecemos dos modelos de despliegue segÃºn las necesidades de tu empresa. Ambos garantizan que tus datos no se usan para entrenar modelos pÃºblicos.</p>
+            <ul>
+              <li><strong style="color:var(--text-main)">Compartido:</strong> Recursos de alto rendimiento compartidos entre clientes, con aislamiento lÃ³gico total. Ideal para pymes.</li>
+              <li><strong style="color:var(--text-main)">Dedicado:</strong> Servidor exclusivo para tu empresa, con aislamiento fÃ­sico, recursos garantizados y configuraciÃ³n personalizada.</li>
+              <li>Cumplimiento con polÃ­ticas de retenciÃ³n y eliminaciÃ³n de datos.</li>
+              <li>Monitoreo 24/7 y backups automÃ¡ticos.</li>
+            </ul>
+          </div>
+          <div class="col-visual">
+            <div class="col-visual-inner">
+              <div class="col-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"/>
+                  <rect x="2" y="14" width="20" height="8" rx="2" ry="2"/>
+                  <line x1="6" y1="6" x2="6.01" y2="6"/>
+                  <line x1="6" y1="18" x2="6.01" y2="18"/>
+                </svg>
+              </div>
+              <p>Infraestructura dedicada o compartida con aislamiento y privacidad garantizados</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÃ“N 3: VS Code -->
+      <section class="deep-section" data-animate="fade-up">
+        <div class="two-col">
+          <div class="col-text">
+            <span class="tech-badge">ExtensiÃ³n VS Code</span>
+            <h2>El copiloto que conoce tu cÃ³digo y tu negocio</h2>
+            <p>La extensiÃ³n de ProxDeep para Visual Studio Code va mÃ¡s allÃ¡ de la autocompletaciÃ³n genÃ©rica. Entiende la arquitectura de tu proyecto, tus convenciones de cÃ³digo y las reglas de negocio documentadas en tu base de conocimiento.</p>
+            <ul>
+              <li>Sugerencias de cÃ³digo alineadas con tus estÃ¡ndares internos.</li>
+              <li>Refactors que respetan la arquitectura existente.</li>
+              <li>DocumentaciÃ³n automÃ¡tica de funciones y mÃ³dulos.</li>
+              <li>Contexto de repositorios privados sin enviar cÃ³digo a terceros.</li>
+              <li>Compatible con cualquier lenguaje soportado por VS Code.</li>
+            </ul>
+          </div>
+          <div class="col-visual">
+            <div class="col-visual-inner">
+              <div class="col-visual-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <polyline points="16 18 22 12 16 6"/>
+                  <polyline points="8 6 2 12 8 18"/>
+                </svg>
+              </div>
+              <p>Copiloto de cÃ³digo con contexto organizacional real, no genÃ©rico</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECCIÃ“N 4: TecnologÃ­a -->
+      <section class="deep-section alt" data-animate="fade-up">
+        <div class="section-header" style="max-width:720px;margin:0 auto 2rem;text-align:center;">
+          <h2 style="font-size:1.7rem;margin-bottom:0.65rem;background:linear-gradient(135deg,#fff 50%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">TecnologÃ­a diseÃ±ada para entornos empresariales</h2>
+          <p style="color:var(--text-muted);font-size:0.96rem;">Cada componente de ProxDeep estÃ¡ pensado para operar con los estÃ¡ndares de seguridad, privacidad y rendimiento que las empresas exigen.</p>
+        </div>
+        <div class="tech-grid">
+          <div class="tech-item">
+            <span class="tech-badge">Seguridad</span>
+            <h4>Cifrado extremo a extremo</h4>
+            <p>Todos los datos en trÃ¡nsito y en reposo estÃ¡n cifrados con estÃ¡ndares AES-256 y TLS 1.3.</p>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge">Acceso</span>
+            <h4>Control de roles y permisos</h4>
+            <p>Define quÃ© informaciÃ³n puede ver cada Ã¡rea o usuario. Registro de actividad para auditorÃ­as.</p>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge">Privacidad</span>
+            <h4>Sin entrenamiento pÃºblico</h4>
+            <p>Tus datos nunca se usan para mejorar modelos de terceros. Instancia completamente aislada.</p>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge">IntegraciÃ³n</span>
+            <h4>API REST y webhooks</h4>
+            <p>Conecta ProxDeep con tus sistemas existentes mediante una API documentada y webhooks configurables.</p>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge">Rendimiento</span>
+            <h4>Respuestas en milisegundos</h4>
+            <p>Infraestructura optimizada para latencia baja, incluso con bases de conocimiento de gran volumen.</p>
+          </div>
+          <div class="tech-item">
+            <span class="tech-badge">Escalabilidad</span>
+            <h4>Crece con tu empresa</h4>
+            <p>Desde 5 usuarios hasta miles, sin cambiar de plataforma. MigraciÃ³n entre planes sin fricciÃ³n.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="deep-section" style="text-align:center;" data-animate="fade-up">
+        <h2 style="font-size:1.8rem;margin-bottom:0.8rem;background:linear-gradient(135deg,#fff 40%,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Â¿Listo para ver ProxDeep en acciÃ³n?</h2>
+        <p style="color:var(--text-muted);max-width:500px;margin:0 auto 1.8rem;line-height:1.7;">Te mostramos una demo con datos reales de tu empresa. Sin compromiso, en 30 minutos.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="demo.html" class="btn btn-primary btn-lg">Agendar demo</a>
+          <a href="planes.html" class="btn btn-ghost btn-lg">Ver planes</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <div class="logo">
+            <svg class="logo-img" style="width:28px;height:28px;" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <radialGradient id="hexGrad2" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#1a6fd4"/>
+                  <stop offset="100%" stop-color="#0a1e5e"/>
+                </radialGradient>
+              </defs>
+              <polygon points="50,4 92,27 92,73 50,96 8,73 8,27" fill="url(#hexGrad2)" stroke="#1e4fa0" stroke-width="2"/>
+              <circle cx="50" cy="22" r="3" fill="#00cfff"/><circle cx="71" cy="33" r="3" fill="#00cfff"/>
+              <circle cx="71" cy="67" r="3" fill="#00cfff"/><circle cx="50" cy="78" r="3" fill="#00cfff"/>
+              <circle cx="29" cy="67" r="3" fill="#00cfff"/><circle cx="29" cy="33" r="3" fill="#00cfff"/>
+              <g stroke="#00cfff" stroke-width="1" opacity="0.6">
+                <line x1="50" y1="22" x2="71" y2="33"/><line x1="71" y1="33" x2="71" y2="67"/>
+                <line x1="71" y1="67" x2="50" y2="78"/><line x1="50" y1="78" x2="29" y2="67"/>
+                <line x1="29" y1="67" x2="29" y2="33"/><line x1="29" y1="33" x2="50" y2="22"/>
+              </g>
+              <circle cx="50" cy="50" r="6" fill="#00cfff" opacity="0.9"/>
+              <circle cx="50" cy="50" r="3" fill="#ffffff" opacity="0.8"/>
+            </svg>
+            <span class="logo-text">PROX<span>DEEP</span></span>
+          </div>
+          <p>IA organizacional, servidores seguros y copiloto para cÃ³digo en una sola plataforma.</p>
+        </div>
+        <div class="footer-right">
+          <a href="index.html">Inicio</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>Â© 2026 ProxDeep. Todos los derechos reservados.</span>
+      </div>
+    </footer>
+  </div>
+
+  <!-- ROBOT ASISTENTE -->
+  <div class="bot-wrapper" id="bot-wrapper">
+    <div class="bot-bubbles" id="bot-bubbles">
+      <span class="bot-bubble" id="bot-bubble-text">IA disponible 24/7</span>
+    </div>
+    <button class="bot-btn" id="bot-btn" aria-label="Abrir asistente ProxDeep">
+      <div class="bot-face">
+        <div class="bot-eyes">
+          <span class="bot-eye"></span>
+          <span class="bot-eye"></span>
+        </div>
+        <div class="bot-mouth"></div>
+      </div>
+      <div class="bot-pulse"></div>
+    </button>
+    <div class="bot-chat" id="bot-chat">
+      <div class="bot-chat-header">
+        <div class="bot-chat-avatar">ðŸ¤–</div>
+        <div>
+          <strong>ProxDeep AI</strong>
+          <span class="bot-online">â— En lÃ­nea</span>
+        </div>
+        <button class="bot-close" id="bot-close" aria-label="Cerrar chat">âœ•</button>
+      </div>
+      <div class="bot-chat-messages" id="bot-chat-messages">
+        <div class="bot-msg bot-msg-ai">
+          <p>Â¡Hola! Soy el asistente de ProxDeep ðŸ‘‹ Â¿En quÃ© puedo ayudarte hoy?</p>
+        </div>
+      </div>
+      <div class="bot-chat-input">
+        <input type="text" id="bot-input" placeholder="Escribe tu pregunta..." />
+        <button id="bot-send" aria-label="Enviar">âž¤</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
+
