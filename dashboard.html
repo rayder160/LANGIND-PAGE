@@ -104,7 +104,7 @@
       </div>
     </div>
 
-    <div class="dash-content">
+    <div class="dash-content" id="dash-content">
 
       <!-- VISTA: VISTA GLOBAL (CEO/Admin) -->
       <div class="dash-view" id="view-dashboard">
@@ -145,22 +145,29 @@
             <div class="table-container">
               <table class="data-table">
                 <thead><tr><th>Área</th><th>Problema Detectado por IA</th><th>Impacto</th><th>Estado</th></tr></thead>
-                <tbody>
-                  <tr><td>Operaciones</td><td>Retrasos recurrentes en validación de QA</td><td>Alto</td><td><span class="badge badge-warning">En revisión</span></td></tr>
-                  <tr><td>RRHH</td><td>Dudas masivas sobre nueva póliza de salud</td><td>Medio</td><td><span class="badge badge-success">Mitigado por IA</span></td></tr>
-                  <tr><td>Tecnología</td><td>Falta de documentación en repositorio CORE</td><td>Alto</td><td><span class="badge badge-warning">En revisión</span></td></tr>
+                <tbody id="org-problems-tbody">
+                  <!-- Llenado dinámicamente -->
                 </tbody>
               </table>
             </div>
           </div>
           <div class="dash-card">
-            <p class="dash-card-title">Distribución de Consultas</p>
-            <div class="activity-list">
-              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 42%;"></div></div><div class="activity-info"><span>RRHH</span><span>42%</span></div></div>
-              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 25%;"></div></div><div class="activity-info"><span>Operaciones</span><span>25%</span></div></div>
-              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 18%;"></div></div><div class="activity-info"><span>Soporte</span><span>18%</span></div></div>
-              <div class="activity-item"><div class="activity-bar"><div class="activity-fill" style="width: 15%;"></div></div><div class="activity-info"><span>Ventas</span><span>15%</span></div></div>
+            <p class="dash-card-title">Distribución de Consultas (Adopción)</p>
+            <div class="activity-list" id="adoption-activity-list">
+              <!-- Llenado dinámicamente -->
             </div>
+          </div>
+        </div>
+
+        <div class="dash-card org-intel-card">
+          <p class="dash-card-title">Inteligencia Organizacional y Relaciones Cruzadas</p>
+          <div class="org-tabs">
+            <button class="org-tab-btn active" id="btn-tab-projects">Proyectos Compartidos</button>
+            <button class="org-tab-btn" id="btn-tab-relations">Mapa de Relaciones</button>
+            <button class="org-tab-btn" id="btn-tab-deps">Dependencias Críticas</button>
+          </div>
+          <div class="org-intel-tab-content" id="org-intel-content">
+            <!-- Llenado dinámicamente -->
           </div>
         </div>
       </div>
@@ -220,96 +227,142 @@
         </div>
       </div>
 
-      <!-- VISTA: WORKSPACE IA (Líder/CEO) - FASE 2 -->
+      <!-- VISTA: WORKSPACE IA — Funcional -->
       <div class="dash-view" id="view-workspace">
-        <div class="view-header">
-          <div>
-            <p class="section-title">Workspace Analítico</p>
-            <p class="section-sub">Canvas colaborativo con generación de IA profunda.</p>
-          </div>
-          <div>
-            <button class="btn-secondary">Exportar PDF</button>
-            <button class="btn-primary">Guardar Reporte</button>
-          </div>
-        </div>
+        <div class="ws-layout">
 
-        <div class="workspace-layout">
-          <div class="workspace-editor">
-            <div class="workspace-title" contenteditable="true" data-placeholder="Título del documento...">Reporte de Eficiencia - Q3</div>
-            <div class="workspace-body" contenteditable="true" data-placeholder="Escribe '/' para insertar bloques generados por IA...">
-              <p>Este documento analiza la eficiencia del departamento de soporte basado en la interacción de la IA.</p>
-              <div class="ai-generated-block">
-                <p class="ai-block-badge">Generado por IA ProxDeep</p>
-                <strong>Hallazgos Clave:</strong>
-                <ul>
-                  <li>Reducción del 45% en tiempo de resolución de tickets nivel 1.</li>
-                  <li>El documento "Guía Básica 2026" fue citado 1,200 veces, evitando escalamientos manuales.</li>
-                </ul>
+          <!-- Panel editor -->
+          <div class="ws-editor-panel">
+            <!-- Toolbar -->
+            <div class="ws-toolbar">
+              <div class="ws-toolbar-left">
+                <button class="btn-secondary btn-sm" id="ws-btn-save">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:middle;"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+                  Guardar
+                </button>
+                <button class="btn-secondary btn-sm" id="ws-btn-export">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right:4px;vertical-align:middle;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  Exportar PDF
+                </button>
               </div>
-              <p><br></p>
-            </div>
-          </div>
-          <div class="workspace-sidebar">
-            <div class="dash-card p-0" style="height: 100%; display: flex; flex-direction: column;">
-              <div class="card-header-flex" style="padding: 1rem 1rem 0;">
-                <p class="dash-card-title">Asistente Copilot</p>
+              <div class="ws-status" id="ws-status">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                <span id="ws-status-text">Sin cambios</span>
               </div>
-              <div style="padding: 0 1rem 1rem; font-size: 0.8rem; color: var(--dash-text-muted);">
-                Pide a la IA que redacte secciones basadas en la data corporativa.
-              </div>
-              <div class="workspace-chat-msgs" style="flex: 1; padding: 1rem; overflow-y: auto;">
-                <!-- Chat messages here -->
-              </div>
-              <div style="padding: 1rem; border-top: 1px solid var(--dash-border);">
-                <input type="text" placeholder="Ej. Resume los tickets de hoy..." style="width: 100%; padding: 0.5rem; background: var(--dash-bg); border: 1px solid var(--dash-border); border-radius: 6px; color: white;" />
+              <div class="ws-toolbar-right">
+                <button class="btn-ghost btn-sm" id="ws-btn-clear" title="Nuevo documento">Nuevo</button>
               </div>
             </div>
+
+            <!-- Documento -->
+            <div class="ws-doc">
+              <input
+                type="text"
+                class="ws-title"
+                id="ws-title"
+                placeholder="Título del documento..."
+                autocomplete="off"
+              />
+              <div
+                class="ws-body"
+                id="ws-body"
+                contenteditable="true"
+                spellcheck="true"
+              ></div>
+            </div>
           </div>
+
+          <!-- Panel lateral IA -->
+          <div class="ws-side">
+            <div class="ws-side-header">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--dash-accent)" stroke-width="2" style="margin-right:6px;vertical-align:middle;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+              Asistente Copilot
+            </div>
+            <div class="ws-side-messages" id="ws-messages">
+              <div class="ws-msg ai">Hola. Puedo ayudarte a redactar secciones, resumir información o generar contenido basado en los datos de tu área. ¿Qué necesitas?</div>
+            </div>
+            <div class="ws-side-input">
+              <input type="text" id="ws-input" placeholder="Ej: Resume los tickets de esta semana..." />
+              <button id="ws-send-btn">→</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <!-- VISTA: ASISTENTE IA (Empleado) -->
+      <!-- VISTA: ASISTENTE IA (Empleado) — ChatGPT/Perplexity style -->
       <div class="dash-view" id="view-employee">
-        <div class="employee-layout">
-          <div class="employee-main">
-            <div class="dash-card chat-card">
-              <div class="chat-header">
-                <div>
-                  <h2 style="font-size: 1.1rem; margin: 0; font-weight: 600;">Asistente de <span id="emp-area-name">tu Área</span></h2>
-                  <p style="font-size: 0.8rem; color: var(--text-muted); margin: 0;">Consulta políticas, procesos o estado de tickets.</p>
-                </div>
-              </div>
-              <div class="dash-chat-area">
-                <div class="dash-chat-messages" id="emp-chat-msgs">
-                  <div class="msg ai">
-                    <div class="msg-content">
-                      <p>¡Hola! Tengo acceso a toda la base de conocimiento de tu área. ¿En qué te puedo ayudar hoy?</p>
-                    </div>
-                  </div>
-                </div>
-                <div class="dash-chat-input-row">
-                  <input type="text" id="emp-chat-input" placeholder="Pregunta algo o busca información..." />
-                  <button id="emp-chat-send">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-                  </button>
-                </div>
-              </div>
+        <div class="emp-fullscreen">
+
+          <!-- Panel lateral ligero -->
+          <div class="emp-side" id="emp-side-panel">
+            <button class="emp-side-new-chat" id="emp-new-chat-btn">
+              + Nueva conversación
+            </button>
+
+            <div class="emp-side-section">Historial</div>
+            <div id="emp-history-list">
+              <!-- Llenado dinámicamente -->
+              <div class="emp-side-item" style="color:var(--dash-text-subtle);font-size:0.78rem;padding:0.4rem 1rem;">Sin conversaciones aún</div>
+            </div>
+
+            <div class="emp-side-section" style="margin-top:auto;">Acciones rápidas</div>
+            <div id="emp-quick-actions-list">
+              <!-- Llenado dinámicamente por rol/área -->
             </div>
           </div>
 
-          <div class="employee-sidebar">
-            <div class="dash-card">
-              <p class="dash-card-title">Acciones Rápidas</p>
-              <div class="quick-actions-list" id="emp-quick-actions">
-                <!-- Llenado dinámicamente -->
+          <!-- Área principal de chat -->
+          <div class="emp-chat-main">
+
+            <!-- Header discreto -->
+            <div class="emp-chat-header">
+              <div class="emp-chat-header-left">
+                <div class="emp-chat-agent-dot"></div>
+                <span class="emp-chat-agent-name" id="emp-agent-name">Asistente ProxDeep</span>
+                <span class="emp-chat-agent-area" id="emp-agent-area">—</span>
+              </div>
+              <div class="emp-chat-header-right" id="emp-context-label">Contexto: cargando...</div>
+            </div>
+
+            <!-- Mensajes -->
+            <div class="emp-messages" id="emp-messages">
+              <!-- Welcome state — se reemplaza al primer mensaje -->
+              <div class="emp-welcome" id="emp-welcome">
+                <div class="emp-welcome-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2z"/>
+                    <path d="M12 8v4l3 3"/>
+                  </svg>
+                </div>
+                <h2 id="emp-welcome-title">Hola, ¿en qué puedo ayudarte?</h2>
+                <p id="emp-welcome-sub">Tengo acceso a la base de conocimiento de tu área. Pregúntame sobre procesos, políticas o cualquier duda operativa.</p>
+                <div class="emp-welcome-chips" id="emp-welcome-chips">
+                  <!-- Chips dinámicos por área -->
+                </div>
               </div>
             </div>
-            <div class="dash-card" style="margin-top: 1rem;">
-              <p class="dash-card-title">Recursos Destacados</p>
-              <div class="resource-list" id="emp-resources-list">
-                <!-- Llenado dinámicamente -->
+
+            <!-- Input fijo abajo -->
+            <div class="emp-input-area">
+              <div class="emp-input-wrap">
+                <textarea
+                  id="emp-textarea"
+                  placeholder="Escribe tu pregunta..."
+                  rows="1"
+                ></textarea>
+                <button class="emp-send-btn" id="emp-send-btn" disabled>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                  </svg>
+                </button>
+                <button class="emp-resolve-btn" id="emp-btn-resolve" title="Resolver Problema">🔧</button>
+                <button class="emp-plan-btn"    id="emp-btn-plan"    title="Sugerir Plan">📋</button>
               </div>
+              <div class="emp-input-hint">Enter para enviar · Shift+Enter para nueva línea</div>
             </div>
+
           </div>
         </div>
       </div>
@@ -483,5 +536,7 @@
 </div>
 
 <script src="dashboard.js"></script>
+<!-- Toast container -->
+<div class="toast-container" id="toast-container"></div>
 </body>
 </html>

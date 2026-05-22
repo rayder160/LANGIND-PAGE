@@ -5,7 +5,7 @@ from app.models.area import Area
 from app.models.user import User
 from app.models.chat import ChatSession, ChatMessage
 from app.models.analytics import UserAnalytics, AreaActivityLog, MessageFeedback
-from app.models.knowledge import AreaChunk, AreaDocument
+from app.models.knowledge import AreaChunk, AreaDocument, WorkspaceDocument
 from app.models.cme import (
     AreaEpisode,
     AreaPattern,
@@ -33,7 +33,7 @@ __all__ = [
     "Base", "Tenant", "Area", "User",
     "ChatSession", "ChatMessage",
     "UserAnalytics", "AreaActivityLog", "MessageFeedback",
-    "AreaChunk", "AreaDocument",
+    "AreaChunk", "AreaDocument", "WorkspaceDocument",
     # CME — Fase 1
     "AreaEpisode", "AreaPattern", "AreaMethodology", "AreaConceptEdge",
     "AreaKnowledgeGap", "AreaContradiction", "GlobalPattern", "GlobalMethodology",

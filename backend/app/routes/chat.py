@@ -1,3 +1,5 @@
+from typing import Optional
+
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, desc
@@ -29,6 +31,7 @@ CLARIFICATION_RESPONSE = "Tu pregunta es un poco amplia. ¿Puedes darme más con
 class MessageRequest(BaseModel):
     session_id: str | None = None
     content: str
+    context: Optional[dict] = None
 
 
 class SessionCreate(BaseModel):
@@ -119,10 +122,16 @@ async def send_message(data: MessageRequest, user: User = Depends(get_current_us
     all_msgs = msgs_result.scalars().all()
     history = [{"role": m.role, "content": m.content} for m in all_msgs]
 
-    # Construir system prompt con contexto del área
+    # Construir system prompt con contexto del área y organizacional
     area_context = None
+    area_name = None
     if user.area_id:
         area_context = await get_area_context(user.area_id, db)
+        from app.models.area import Area as AreaModel
+        area_q = await db.execute(select(AreaModel).where(AreaModel.id == user.area_id))
+        area_obj = area_q.scalar_one_or_none()
+        if area_obj:
+            area_name = area_obj.name
 
     # RAG — buscar chunks relevantes solo si la pregunta tiene sustancia
     if user.area_id and len(data.content.split()) > 3:
@@ -152,12 +161,33 @@ async def send_message(data: MessageRequest, user: User = Depends(get_current_us
         except Exception:
             pass  # fail-silent: continúa sin CME
 
-    # Combinar identidad base de IM con contexto del área
+    # Combinar identidad base de IM con contexto del área y metadata del usuario
     from app.llm import SYSTEM_PROMPT as IM_IDENTITY
+    metadata = None
+    if data.context:
+        metadata_lines = []
+        for field in ('user_name', 'role', 'area_name', 'current_view', 'source'):
+            value = data.context.get(field)
+            if value:
+                label = field.replace('_', ' ').capitalize()
+                metadata_lines.append(f"{label}: {value}")
+        if metadata_lines:
+            metadata = "Información de contexto de la sesión:\n" + "\n".join(metadata_lines)
+
+    current_view = "employee"
+    if data.context and data.context.get("current_view"):
+        current_view = data.context.get("current_view")
+
+    from app.routes.org import get_org_prompt_context
+    org_context = get_org_prompt_context(user, view=current_view, area_name=area_name)
+
+    combined_parts = [IM_IDENTITY]
+    if metadata:
+        combined_parts.append(metadata)
+    combined_parts.append(org_context)
     if area_context:
-        combined_system = f"{IM_IDENTITY}\n\n---\n{area_context}"
-    else:
-        combined_system = None  # query_llm usa SYSTEM_PROMPT por defecto
+        combined_parts.append(area_context)
+    combined_system = "\n\n---\n".join(combined_parts) if len(combined_parts) > 1 else IM_IDENTITY
 
     response = await query_llm(history, system_context=combined_system)
 

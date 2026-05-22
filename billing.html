@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facturación – ProxDeep</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="billing.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body class="dark-mode">
+  <header class="header">
+    <h1>Facturación</h1>
+    <nav class="nav">
+      <a href="index.html">Inicio</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="billing.html" class="active">Facturación</a>
+    </nav>
+  </header>
+  <main class="container">
+    <section class="card glass" id="plan-summary">
+      <h2>Plan actual</h2>
+      <div class="grid">
+        <div><strong>Nombre:</strong> <span id="plan-name"></span></div>
+        <div><strong>Estado:</strong> <span id="plan-status"></span></div>
+        <div><strong>Renovación:</strong> <span id="plan-renewal"></span></div>
+        <div><strong>Precio mensual:</strong> $<span id="plan-price"></span></div>
+        <div><strong>Modelos permitidos:</strong> <span id="plan-models"></span></div>
+        <div><strong>Funciones:</strong> <span id="plan-features"></span></div>
+      </div>
+    </section>
+    <section class="card glass" id="usage-summary">
+      <h2>Uso del mes actual</h2>
+      <div class="grid">
+        <div><strong>Gasto:</strong> $<span id="usage-spend"></span> / $<span id="usage-limit"></span></div>
+        <div><strong>% usado:</strong> <span id="usage-percent"></span>%</div>
+        <div><strong>Mensajes enviados:</strong> <span id="usage-messages"></span></div>
+        <div><strong>Tokens usados:</strong> <span id="usage-tokens"></span></div>
+        <div><strong>Recomendación:</strong> <span id="usage-reco"></span></div>
+      </div>
+    </section>
+    <section class="card glass" id="alerts-section">
+      <h2>Alertas</h2>
+      <ul id="alerts-list"></ul>
+    </section>
+    <section class="card glass" id="payment-history">
+      <h2>Historial de pagos</h2>
+      <table>
+        <thead>
+          <tr><th>Fecha</th><th>Monto</th><th>Estado</th><th>Factura</th></tr>
+        </thead>
+        <tbody id="payment-body"></tbody>
+      </table>
+    </section>
+    <section class="card glass" id="upcoming-invoice">
+      <h2>Próxima factura</h2>
+      <p>Fecha: <span id="upcoming-date"></span></p>
+      <p>Monto: $<span id="upcoming-amount"></span></p>
+      <p>Estado: <span id="upcoming-status"></span></p>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>© 2026 ProxDeep. Todos los derechos reservados.</p>
+  </footer>
+  <script src="billing.js"></script>
+</body>
+</html>

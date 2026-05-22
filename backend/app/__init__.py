@@ -1,1 +1,1 @@
-# Ether-IM Backend
+# Makes backend/app a Python package

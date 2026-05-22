@@ -97,6 +97,135 @@ async def me(user: User = Depends(get_current_user), db: AsyncSession = Depends(
     }
 
 
+class GoogleAuthRequest(BaseModel):
+    credential: str  # Google ID token (JWT) obtenido desde Google Identity Services
+
+
+@router.post("/google")
+async def login_google(data: GoogleAuthRequest, db: AsyncSession = Depends(get_db)):
+    """
+    Autenticación con Google.
+    Flujo:
+      1. Frontend obtiene credential (ID token) de Google Identity Services
+      2. Frontend envía { credential } a este endpoint
+      3. Backend valida el token con Google
+      4. Si el usuario existe → devuelve sesión normal
+      5. Si no existe → crea usuario automáticamente con rol 'employee'
+
+    TODO BACKEND — Configuración requerida en .env:
+      GOOGLE_CLIENT_ID=561417509211-20581mufa4ndkkdmlktm822eiu9vd57g.apps.googleusercontent.com
+
+    TODO BACKEND — Instalar dependencia:
+      pip install google-auth
+
+    TODO BACKEND — Configurar en Google Cloud Console:
+      APIs & Services → Credentials → OAuth 2.0 Client ID
+      Authorized JavaScript origins:
+        - http://localhost
+        - http://localhost:8000
+        - https://tu-dominio-de-produccion.com
+    """
+    import os
+    try:
+        from google.oauth2 import id_token
+        from google.auth.transport import requests as google_requests
+    except ImportError:
+        raise HTTPException(
+            status_code=501,
+            detail="Google Auth no está instalado en el servidor. Ejecuta: pip install google-auth"
+        )
+
+    google_client_id = os.getenv(
+        "GOOGLE_CLIENT_ID",
+        "561417509211-20581mufa4ndkkdmlktm822eiu9vd57g.apps.googleusercontent.com"
+    )
+
+    try:
+        id_info = id_token.verify_oauth2_token(
+            data.credential,
+            google_requests.Request(),
+            google_client_id
+        )
+    except ValueError as e:
+        raise HTTPException(status_code=401, detail=f"Token de Google inválido: {str(e)}")
+
+    email = id_info.get("email")
+    name = id_info.get("name", email.split("@")[0] if email else "Usuario")
+
+    if not email:
+        raise HTTPException(status_code=400, detail="No se pudo obtener el email de Google")
+
+    # Buscar usuario existente
+    result = await db.execute(select(User).where(User.email == email))
+    user = result.scalar_one_or_none()
+
+    if not user:
+        # Crear usuario nuevo con rol employee
+        # TODO BACKEND: Asignar tenant y área según dominio del email o configuración
+        from app.models.tenant import Tenant
+        from app.models.area import Area
+        from app.config import settings
+        from datetime import datetime, timezone
+
+        tenant = Tenant(
+            name=f"Google_{email.split('@')[1]}",
+            licenses_total=1,
+            is_active=True,
+            subscription_status="trial",
+        )
+        db.add(tenant)
+        await db.flush()
+
+        area = Area(
+            tenant_id=tenant.id,
+            name="General",
+            cme_lambda_rate=settings.CME_DEFAULT_LAMBDA,
+            episode_count_since_last_detection=0,
+        )
+        db.add(area)
+        await db.flush()
+
+        user = User(
+            tenant_id=tenant.id,
+            area_id=area.id,
+            email=email,
+            name=name,
+            hashed_password=hash_password(f"google_{email}"),  # password inutilizable
+            role="employee",
+            is_active=True,
+        )
+        db.add(user)
+        await db.commit()
+        await db.refresh(user)
+
+        area_name = area.name
+    else:
+        if not user.is_active:
+            raise HTTPException(status_code=401, detail="Cuenta desactivada")
+        # Obtener area_name
+        area_name = None
+        if user.area_id:
+            area_q = await db.execute(select(Area).where(Area.id == user.area_id))
+            area_obj = area_q.scalar_one_or_none()
+            area_name = area_obj.name if area_obj else None
+
+    token = create_access_token({"sub": user.id, "role": user.role, "tenant_id": user.tenant_id})
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "user": {
+            "id": user.id,
+            "email": user.email,
+            "name": user.name,
+            "role": user.role,
+            "tenant_id": user.tenant_id,
+            "area_id": user.area_id,
+            "area_name": area_name,
+            "is_active": user.is_active,
+        }
+    }
+
+
 class PersonalRegisterRequest(BaseModel):
     email: str
     password: str

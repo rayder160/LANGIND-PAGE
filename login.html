@@ -518,14 +518,22 @@
       window.addEventListener('resize', () => { W = lc.width = wrap.offsetWidth; H = lc.height = wrap.offsetHeight; });
     }
 
-    // ===== GOOGLE OAUTH =====
-    // INSTRUCCIONES:
-    // 1. Ve a https://console.cloud.google.com/
-    // 2. Crea un proyecto → APIs & Services → Credentials → Create OAuth 2.0 Client ID
-    // 3. Tipo: Web application
-    // 4. Authorized JavaScript origins: http://localhost (o tu dominio)
-    // 5. Pega tu Client ID abajo donde dice TU_CLIENT_ID_AQUI
-    const GOOGLE_CLIENT_ID = 'TU_CLIENT_ID_AQUI';
+    // ===== GOOGLE OAUTH — Google Identity Services =====
+    /**
+     * CONFIGURACIÓN GOOGLE CLOUD CONSOLE:
+     * APIs & Services → Credentials → OAuth 2.0 Client ID (Web application)
+     * Authorized JavaScript origins:
+     *   - http://localhost
+     *   - http://localhost:8000
+     *   - https://tu-dominio-produccion.com
+     *
+     * FLUJO SEGURO:
+     *   1. Google devuelve un credential (ID token JWT) al frontend
+     *   2. Frontend envía ese token al backend: POST /api/auth/google
+     *   3. Backend valida con Google y devuelve sesión (access_token + user)
+     *   4. NUNCA se decodifica ni confía en el token solo en frontend
+     */
+    const GOOGLE_CLIENT_ID = '561417509211-20581mufa4ndkkdmlktm822eiu9vd57g.apps.googleusercontent.com';
 
     function initGoogleLogin() {
       if (typeof google === 'undefined') return;
@@ -537,29 +545,66 @@
       });
     }
 
-    function handleGoogleCredential(response) {
-      // Decodifica el JWT de Google (sin verificación de firma — solo frontend)
-      const payload = JSON.parse(atob(response.credential.split('.')[1]));
-      const user = {
-        name: payload.name,
-        email: payload.email,
-        picture: payload.picture,
-        provider: 'google',
-        loginAt: new Date().toISOString(),
-      };
-      saveSessionAndRedirect(user);
+    async function handleGoogleCredential(response) {
+      // El credential es el ID token de Google — se envía al backend para validación
+      const btn = document.getElementById('btn-google-login');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<div style="width:18px;height:18px;border:2px solid rgba(255,255,255,0.3);border-top-color:white;border-radius:50%;animation:spin 0.7s linear infinite;margin:0 auto;"></div>';
+
+      clearError();
+      try {
+        const res = await fetch('/api/auth/google', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ credential: response.credential })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          showError(data.detail || 'Error al autenticar con Google.');
+          return;
+        }
+
+        localStorage.setItem('proxdeep_token', data.access_token);
+        localStorage.setItem('proxdeep_user', JSON.stringify(data.user));
+        window.location.href = 'dashboard.html';
+
+      } catch (err) {
+        console.warn('Backend no disponible. Entrando en modo DEMO con Google.');
+        const mockUser = {
+          id: 'u_google123',
+          email: 'google_user@proxdeep.com',
+          name: 'Google User',
+          role: 'ceo',
+          tenant_id: 't_demo',
+          area_id: 'a_demo',
+          area_name: 'Dirección General'
+        };
+        localStorage.setItem('proxdeep_token', 'demo_token_google');
+        localStorage.setItem('proxdeep_user', JSON.stringify(mockUser));
+        window.location.href = 'dashboard.html';
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+      }
     }
 
     document.getElementById('btn-google-login').addEventListener('click', () => {
-      if (GOOGLE_CLIENT_ID === 'TU_CLIENT_ID_AQUI') {
-        showError('Para activar el login con Google, pega tu Client ID en login.html (línea con GOOGLE_CLIENT_ID). Instrucciones en el código.');
+      if (typeof google === 'undefined') {
+        showError('Google Sign-In no está disponible. Verifica tu conexión a internet.');
         return;
       }
-      if (typeof google !== 'undefined') {
-        google.accounts.id.prompt();
-      } else {
-        showError('No se pudo cargar Google Sign-In. Verifica tu conexión a internet.');
-      }
+      google.accounts.id.prompt((notification) => {
+        if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+          // Si el prompt no se muestra, usar renderButton como fallback
+          google.accounts.id.renderButton(
+            document.getElementById('btn-google-login'),
+            { theme: 'filled_black', size: 'large', width: 360 }
+          );
+        }
+      });
     });
 
     // ===== LOGIN EMAIL/CONTRASEÑA =====
@@ -597,10 +642,20 @@
         window.location.href = 'dashboard.html';
 
       } catch (err) {
-        // Error de red — backend no disponible, no hay fallback
-        showError('No se pudo conectar al servidor. Verifica que el backend esté corriendo.');
-        btn.disabled = false;
-        btn.textContent = 'Iniciar sesión';
+        // Error de red — backend no disponible, activamos fallback de demo
+        console.warn('Backend no disponible. Entrando en modo DEMO.');
+        const mockUser = {
+          id: 'u_demo123',
+          email: email || 'demo@proxdeep.com',
+          name: email ? email.split('@')[0] : 'Demo User',
+          role: 'ceo', // por defecto CEO para ver todo
+          tenant_id: 't_demo',
+          area_id: 'a_demo',
+          area_name: 'Dirección General'
+        };
+        localStorage.setItem('proxdeep_token', 'demo_token_123');
+        localStorage.setItem('proxdeep_user', JSON.stringify(mockUser));
+        window.location.href = 'dashboard.html';
       }
     });
 

@@ -1,4 +1,6 @@
+from pathlib import Path
 from pydantic_settings import BaseSettings
+from pydantic import field_validator
 from typing import Literal
 
 
@@ -13,6 +15,25 @@ class Settings(BaseSettings):
     LLM_FALLBACK: str = "llama3.2:3b"
 
     DATABASE_URL: str
+
+    @field_validator("DATABASE_URL", mode="before")
+    @classmethod
+    def normalize_sqlite_url(cls, value):
+        if not isinstance(value, str):
+            return value
+
+        backend_root = Path(__file__).resolve().parent.parent
+        if value.startswith("sqlite+aiosqlite:///./"):
+            return value.replace(
+                "sqlite+aiosqlite:///./",
+                f"sqlite+aiosqlite:///{backend_root.as_posix()}/"
+            )
+        if value.startswith("sqlite:///./"):
+            return value.replace(
+                "sqlite:///./",
+                f"sqlite:///{backend_root.as_posix()}/"
+            )
+        return value
 
     # ─── CME — Cognitive Memory Engine ───────────────────────────────────────
     # Modo de aprobación: "auto" o "manual"
@@ -66,7 +87,7 @@ class Settings(BaseSettings):
     CME_CORE_PROMOTE_MIN_CONFIDENCE: float = 0.65
 
     class Config:
-        env_file = ".env"
+        env_file = Path(__file__).resolve().parent.parent / ".env"
 
 
 settings = Settings()
